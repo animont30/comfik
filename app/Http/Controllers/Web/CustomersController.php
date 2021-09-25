@@ -134,8 +134,7 @@ class CustomersController extends Controller
 	{
 		
 		 $product_id = $this->products->updateMyRecipe($request);
-		return redirect('/uploadrecipes');
-      //  return redirect()->back()->with('product_id', $product_id);
+		return redirect('/myrecipes');
   
 	}
 	public function uploadrecipes()
@@ -277,12 +276,21 @@ class CustomersController extends Controller
         return redirect()->back()->withErrors([Lang::get("labels.ProducthasbeendeletedMessage")]);
       }
 	
+	 //delete recipe img
+    public function deleterecipeimg(Request $request)
+    {
+     $this->products->deleterecipeimg($request);
+        return redirect()->back()->withErrors([Lang::get("labels.ProducthasbeendeletedMessage")]);
+      }
+	
+	
 	 public function editMyRecipe($id)
     {
        
-	   $Products = DB::table('Products')->leftJoin('products_description', 'products_description.products_id', '=','products.products_id')->leftJoin('products_to_categories', 'products_to_categories.products_id', '=','products.products_id')->select('products.*', 'products_description.*', 'products_to_categories.*')->where('Products.products_id', $id)->first();
+	   $Products = DB::table('products')->leftJoin('products_description', 'products_description.products_id', '=','products.products_id')->leftJoin('products_to_categories', 'products_to_categories.products_id', '=','products.products_id')->select('products.*', 'products_description.*', 'products_to_categories.*')->where('products.products_id', $id)->first();
 	   //dd($Products);
 		$result = array();
+		
 		  $result['categories'] = $this->products->categories();
 		  $result['manufacturers'] = $this->products->manufacturers();
         $final_theme = $this->theme->theme();
@@ -292,6 +300,45 @@ class CustomersController extends Controller
 		 return view('web.editMyRecipes',['Products'=> $Products,'result' => $result,'final_theme' => $final_theme]);
 		}
 		
+		
+		 public function myrecipeimg($id)
+    {
+		$result = array();
+		 $login_id = auth()->guard('customer')->user()->id;
+		 
+		 $result['author'] = DB::table('users')->where('id', $login_id)->first();
+		 $result['products'] = DB::table('products_images')->where('products_id', $id)->get();
+		  $result['commonContent'] = $this->index->commonContent();
+		  $final_theme = $this->theme->theme();
+        //dd($result['products']);
+	  return view('web.myrecipes-img',['result' => $result,'final_theme' => $final_theme]);
+		}
+		
+		public function editrecipeimg($id)
+    {
+			$result = array();
+		 $login_id = auth()->guard('customer')->user()->id;
+		 
+		 $result['author'] = DB::table('users')->where('id', $login_id)->first();
+		
+		$result['products_images_id'] = $id;
+        $result['commonContent'] = $this->index->commonContent();
+		  $final_theme = $this->theme->theme();
+		 return view('web.uploadrecipesimg',['result' => $result,'final_theme' => $final_theme]);
+		}
+		
+		public function updatemyrecipeimg(Request $request)
+        {      
+       
+        $result = $this->products->updatemyrecipeimg($request);
+        $products_images_id = $request->products_images_id;
+        if ($request->products_type == 1) {
+            return redirect('myrecipes/');
+        } else {
+            return redirect('myrecipes/');
+        }
+    }	
+		
 	 public function editMyRecipeSave(Request $request)
     {      
        
@@ -300,7 +347,7 @@ class CustomersController extends Controller
         if ($request->products_type == 1) {
             return redirect('myrecipes/');
         } else {
-            return redirect('editMyRecipe/' . $products_id);
+            return redirect('myrecipes');
         }
     }	
 		
@@ -309,9 +356,25 @@ class CustomersController extends Controller
 	public function dashboard()
 	{
 		 $result = array();
-		  
+		  $login_id = auth()->guard('customer')->user()->id;
+		 
+		 $result['author'] = DB::table('users')->where('id', $login_id)->first();
+     $result['products'] = DB::table('products')
+	 ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
+	 ->leftJoin('reviews', 'reviews.products_id', '=', 'products.products_id')
+	 ->leftJoin('orders_products', 'orders_products.products_id', '=', 'products.products_id')
+	 ->leftJoin('liked_products', 'liked_products.liked_products_id', '=', 'products.products_id')
+	 ->select('products.*','products_description.*','reviews.*')->where('products.products_author',$login_id);
+	 
+	 $result['products_liked'] =$result['products']->count('liked_products.liked_customers_id');
+	 $result['products_total'] =$result['products']->count('products.products_id');
+	 $result['reviews'] =$result['products']->count('reviews.reviews_id');
+	 $result['orders_total'] =$result['products']->count('orders_products.orders_products_id');
+	 $result['total_earnings'] =$result['products']->sum('orders_products.final_price');
+//dd($result['orders_total']);
         $final_theme = $this->theme->theme();
         $result['commonContent'] = $this->index->commonContent();
+		
 		 return view('web.dashboard',['result' => $result,'final_theme' => $final_theme]);
 	}
     public function Compare()

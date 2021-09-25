@@ -139,7 +139,12 @@
 										<div class="post-media-body">
 											<a href="{{ URL::to('/product-detail/'.$products->products_slug)}}" class="wrap_img_art">
 												<div class="product_img_contain position-relative"> 
-                            <img src="{{asset('').$products->image_path}}" alt="{{$products->products_name}}" /> 
+                          
+							 @if(!empty($products->image_path))
+                               <img src="{{asset('').$products->image_path}}" alt="{{$products->products_name}}" /> 
+                            @else
+                               <img src="{{asset('/product_img/product_'.$products->products_id.'/'.$products->products_image ?? '')}}" alt="{{$products->products_name}}" /> 
+                            @endif
                             <div class="figure-shade">
 													<!-- <span class="icon-eye modal_show" products_id ="{{$products->products_id}}" data-toggle="tooltip" data-placement="bottom" title="@lang('website.Quick View')"></span> -->
 												</div>

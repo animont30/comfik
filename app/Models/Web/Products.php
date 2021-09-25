@@ -899,7 +899,7 @@ public function insert($request){
                     ->where('image_id', '=', $products_data->products_image)
                     ->where('image_type', 'MEDIUM')
                     ->first();
-
+if(!empty($default_images)){
                 if ($default_images) {
                     $products_data->image_path = $default_images->path;
                 } else {
@@ -957,7 +957,14 @@ public function insert($request){
                 } else {
                     $products_data->default_thumb = $products_data->default_images;
                 }
-
+} else{
+	 $products_images = DB::table('products_images')
+                    ->LeftJoin('image_categories', 'products_images.image', '=', 'image_categories.image_id')
+                    ->select('image_categories.path as image_path', 'image_categories.image_type')
+                    ->where('products_id', '=', $products_id)
+                    ->orderBy('sort_order', 'ASC')
+                    ->get();
+}
                 //categories
                 $categories = DB::table('products_to_categories')
                     ->leftjoin('categories', 'categories.categories_id', 'products_to_categories.categories_id')
@@ -1499,28 +1506,33 @@ public function insert($request){
     }
 	
 	public function updateMyRecipe($request){
-	//dd($request);	 
+    
      $date_added	= date('Y-m-d h:i:s');
 	 $user_id = auth()->guard('customer')->user()->id;
+	 $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->products_name)));
 	 
        $products_id = DB::table('products')->insertGetId([
         //'products_image' => $uploadImage,
 		'products_author' => $user_id,
         'products_price' => $request->setprice,
+		'products_quantity' => 0,
         'created_at' => $date_added,
         'products_weight' => $request->products_weight,
         'products_weight_unit' => $request->products_weight_unit,
         'low_limit' => 0,
-        'products_slug' => 0,
+        'products_slug' => $slug,
         'products_type' => $request->food_type,
         'is_feature' => $request->is_feature,
         'products_video_link' => $request->videourl,
         'products_sell' => $request->products_sell,
         'products_deliver_time'  => $request->products_deliver_time,
+		'is_current' => 1,
+		'products_status' => 1,
 		
-		
+              
 		
     ]);
+	
 	
 	    $req_products_name = $request->products_name ;
         $req_products_listofingredients = $request->ingredients;
@@ -1535,14 +1547,19 @@ public function insert($request){
 		
 		if($request->hasfile('file')) {
 	
-            foreach($request->file('file') as $file)
+            foreach($request->file('file') as $key => $file)
             {
-					
+				
                 $fileName = time().rand(0, 1000).pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $fileName = $fileName.'.'.$file->getClientOriginalExtension();
 				$destinationPath = 'product_img/product_'.$products_ids;
 				$file->move($destinationPath, $fileName); 
-               
+               if($key==0){
+					DB::table('products')->where('products_id', '=', $products_ids)->update([
+				
+				'products_image' => $fileName,
+        ]);
+				}
 			   DB::table('products_images')->insert([
 				'products_id' => $products_id,
 				'image' => $fileName,
@@ -1564,13 +1581,10 @@ public function insert($request){
 		public function paginator($request){
        
 	    $user_id = auth()->guard('customer')->user()->id;
-	   $Products = DB::table('Products')->leftJoin('products_description', 'products_description.products_id', '=','products.products_id')->leftJoin('products_images', 'products_images.products_id', '=','products.products_id')->select('products.*', 'products_description.*','products_images.image')->where('products.products_author',$user_id)->get();
-	   
-	    
+	   $Products = DB::table('products')->leftJoin('products_description', 'products_description.products_id', '=','products.products_id')->select('products.*', 'products_description.*',DB::raw("(SELECT i.image FROM products_images as i
+        WHERE i.products_id = products.products_id
+      LIMIT 1) as image"))->where('products.products_author',$user_id)->get();
 	  
-	   //dd($Products);
-	   
-	
         return $Products;
     }
 	
@@ -1579,8 +1593,7 @@ public function insert($request){
     {
       
         $products_id = $request->id;
-dd($products_id);die;
-        DB::table('Products')->where([
+        DB::table('products')->where([
             ['products_id', '=', $products_id],
         ])->delete();
 
@@ -1594,11 +1607,28 @@ dd($products_id);die;
 
     }
 	
+	public function deleterecipeimg($request)
+    {
+      
+        $img_id = $request->id;
+		
+        DB::table('products_images')->where([
+            ['id', '=', $img_id],
+        ])->delete();
+
+      
+        $check = DB::table('customers_basket')
+            ->where('customers_basket.session_id', '=', Session::getId())
+            ->first();
+        return $check;
+
+    }
+	
 	public function editMyRecipeSave($request){
 		   $products_id = $request->products_id;
           $products_last_modified	= date('Y-m-d h:i:s');
           
-           DB::table('Products')->where('products_id',$products_id)->update([         
+           DB::table('products')->where('products_id',$products_id)->update([         
 			    'products_quantity' => 0,
 				'updated_at' => $products_last_modified,
 				'products_price' => $request->setprice,
@@ -1611,7 +1641,8 @@ dd($products_id);die;
 				'products_video_link' => $request->videourl,
 				'products_sell' => $request->products_sell,
 				'products_deliver_time'  => $request->products_deliver_time,
-
+				'is_current' => 1,
+		         'products_status' => 1,
           ]);
        
                    $req_products_name = $request->products_name ;
@@ -1642,58 +1673,44 @@ dd($products_id);die;
 				$destinationPath = 'product_img/product_'.$products_id;
 				$file->move($destinationPath, $fileName); 
                
-			   DB::table('products_images')->update([
+			   DB::table('products_images')->insert([
 				'products_id' => $products_id,
 				'image' => $fileName,
         ]);
             }
         }        
+          
+		  $result['data'] = array('products_id'=>$products_id);
+          return $result;
+  }
+	
+	public function updatemyrecipeimg($request){
+		   $products_images_id = $request->products_images_id;
+         $products = DB::table('products_images')->where('id', $products_images_id)->get()->first();
+	   $products_id = $products->products_id;
+                 
+                  
+         
+		 if($request->file('file')){
+                 $image = $request->file('file');
+                $path = $image->getRealPath();      
+                $name =  time().uniqid().$image->getClientOriginalName();
+                $destinationPath = 'product_img/product_'.$products_id;
+                $image->move($destinationPath, $name); 
+            
+					
+                
+			   DB::table('products_images')->where('id', '=', $products_images_id)->update([
+				'products_id' => $products_id,
+				'image' => $name,
+        ]);
+            
+        }        
            
           
 
-          //special product
-          if($request->isSpecial == 'yes'){
-            DB::table('specials')->where('products_id', '=', $products_id)->update([
-                'specials_last_modified' => $products_last_modified,
-                'date_status_change' => $products_last_modified,
-                'status' => 0,
-            ]);
-            DB::table('specials')->insert([
-                'products_id' => $products_id,
-                'specials_new_products_price' => $request->specials_new_products_price,
-                'specials_date_added' => time(),
-                'expires_date' => $expiryDateFormate,
-                'status' => $request->status,
-            ]);
-            }else if($request->isSpecial == 'no'){
-              DB::table('specials')->where('products_id', '=', $products_id)->delete();
-            }
 
-          //flash sale product
-          if($request->isFlash == 'yes'){
-            DB::table('flash_sale')->where('products_id', '=', $products_id)->update([
-                'updated_at' => $products_last_modified,
-                'flash_status' => 0,
-            ]);
-              $startdate = $request->flash_start_date;
-              $starttime = $request->flash_start_time;
-              $start_date = str_replace('/','-',$startdate.' '.$starttime);
-              $flash_start_date = strtotime($start_date);
-              $expiredate = $request->flash_expires_date;
-              $expiretime = $request->flash_end_time;
-              $expire_date = str_replace('/','-',$expiredate.' '.$expiretime);
-              $flash_expires_date = strtotime($expire_date);
-              DB::table('flash_sale')->insert([
-                  'products_id' => $products_id,
-                  'flash_sale_products_price' => $request->flash_sale_products_price,
-                  'created_at' => $products_last_modified,
-                  'flash_start_date' => $flash_start_date,
-                  'flash_expires_date' => $flash_expires_date,
-                  'flash_status' => $request->flash_status
-              ]);
-           }else if($request->isFlash == 'no'){
-             DB::table('flash_sale')->where('products_id', '=', $products_id)->delete();                
-            }
+          
          
           
                         
@@ -1701,6 +1718,5 @@ dd($products_id);die;
           $result['data'] = array('products_id'=>$products_id);
           return $result;
   }
-
    
 }

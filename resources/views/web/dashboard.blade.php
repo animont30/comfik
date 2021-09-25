@@ -1,6 +1,6 @@
 @extends('web.layout')
 @section('content')
-
+<?php //print_r($result['author'])?>
 <!-- MAIN CONTENT -->
 <main class="main-content">
         <div class="author-banner-contain">
@@ -28,10 +28,11 @@
                         <div class="col-md-9">
                             <div class="author-name-contain d-flex flex-wrap align-items-center">
                                 <div class="name-contain">
-                                    <h2>Parnita Bala, <span>Vaishali Nagar, Jaipur</span></h2>
+								
+                                    <h2> {{$result['author']->first_name ?? ''}} {{$result['author']->last_name ?? ''}}<span> {{$result['author']->locality ?? ''}}, {{$result['author']->district ?? ''}}</span></h2>
                                 </div>
-                                <div class="contain-number ml-md-5 pl-md-3">+91 44444 44444</div>
-                                <div class="contain-email ml-md-5 pl-md-3">user@domain.com</div>
+                                <div class="contain-number ml-md-5 pl-md-3">+91 {{$result['author']->phone ?? ''}}</div>
+                                <div class="contain-email ml-md-5 pl-md-3">{{$result['author']->email ?? ''}}</div>
                             </div>
                         </div>
                     </div>
@@ -44,39 +45,39 @@
                     <div class="contain_author_cred_wrapper pb-5 mt-5 d-flex flex-wrap align-items-center justify-content-between">
                         <div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
                             <img src="{{asset('./images/media/2021/08/author-recipe.png')}}" alt="Recipe icon">
-                            <h3>549</h3>
+                            <h3>{{$result['products_total']}}</h3>
                             <span>Uploaded Recipes</span>
                         </div>
                         <div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
                             <img src="{{asset('./images/media/2021/08/heart-gray.png')}}" alt="Heart">
-                            <h3>22203</h3>
+                            <h3>{{$result['products_liked']}}</h3>
                             <span>Likes</span>
                         </div>
                         <div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
                             <img src="{{asset('./images/media/2021/08/comment-gray.png')}}" alt="Comments">
-                            <h3>38</h3>
+                            <h3>{{$result['reviews']}}</h3>
                             <span>Reviews</span>
                         </div>
-                        <div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
+                        <!--<div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
                             <img src="{{asset('./images/media/2021/08/followers-gray.png')}}" alt="Followers">
                             <h3>87</h3>
                             <span>Followers</span>
-                        </div>
+                        </div>-->
                         <div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
                             <img src="{{asset('./images/media/2021/08/order.png')}}" alt="Received Orders">
-                            <h3>45</h3>
+                            <h3>{{$result['orders_total']}}</h3>
                             <span>Received Orders</span>
                         </div>
                         <div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
                             <img src="{{asset('./images/media/2021/08/earning.png')}}" alt="Total Earning">
-                            <h3>42000</h3>
+                            <h3>{{$result['total_earnings']}}</h3>
                             <span>Total Earnings</span>
                         </div>
-                        <div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
+                        <!--<div class="cred_item d-flex flex-column pb-3 justify-content-center align-items-center">
                             <img src="{{asset('./images/media/2021/08/followers-gray.png')}}" alt="Shared">
                             <h3>5642</h3>
                             <span>Shared Times</span>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>

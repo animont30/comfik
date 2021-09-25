@@ -425,8 +425,9 @@ class ProductsController extends Controller
          }
  
          $products = $this->products->getProductsBySlug($request->slug);
+		 
          if(!empty($products) and count($products)>0){
-             
+            
              //category
              $category = $this->products->getCategoryByParent($products[0]->products_id);
  

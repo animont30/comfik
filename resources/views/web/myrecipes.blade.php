@@ -51,7 +51,7 @@
 											<div class="post-content entry-summary position-relative">
 												<p> {{substr(strip_tags($prod->products_listofingredients),0,100)}}... </p>
 												<div class="read-more-link"><a href="{{ URL::to('/product-detail')}}">Read More</a></div>
-												@if($prod->products_price>0)
+												@if($prod->products_price > 0)
 												<div class="recipes-buzzer-wrap position-absolute">
 													<a href="javascript:void(0);">
 														<img src="{{asset('./images/media/2021/08/buzzer.png')}}" alt="Buzzer icon">
@@ -95,10 +95,13 @@
 										<div class="author-contain d-flex justify-content-between">
 											<div class="author-social-wrap author-selfIn-list d-flex align-items-center justify-content-between">
 												<div class="social-item text-center">
-													<a class="btn btn-primary" style="width: 100%; " href="{{ URL::to('/editMyRecipe/'.$prod->products_id)}}">Edit Recipe</a>
+													<a class="btn btn-primary" style="width: 100%; " href="{{ URL::to('/editMyRecipe/'.$prod->products_id)}}">Edit </a>
 												</div>
 												<div class="social-item text-center">
-													<a class="btn btn-danger" style="width: 100%;" href="{{ URL::to('/deleteMyRecipe/'.$prod->products_id)}}">Delete Recipe</a>
+													<a class="btn btn-danger" style="width: 100%;" href="{{ URL::to('/deleteMyRecipe/'.$prod->products_id)}}">Delete </a>
+												</div>
+												<div class="social-item text-center">
+													<a class="btn btn-primary" style="width: 100%; " href="{{ URL::to('/myrecipeimg/'.$prod->products_id)}}"> img</a>
 												</div>
 												
 											</div>

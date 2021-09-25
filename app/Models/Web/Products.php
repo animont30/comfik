@@ -1564,13 +1564,10 @@ public function insert($request){
 		public function paginator($request){
        
 	    $user_id = auth()->guard('customer')->user()->id;
-	   $Products = DB::table('Products')->leftJoin('products_description', 'products_description.products_id', '=','products.products_id')->leftJoin('products_images', 'products_images.products_id', '=','products.products_id')->select('products.*', 'products_description.*','products_images.image')->where('products.products_author',$user_id)->get();
-	   
-	    
+	   $Products = DB::table('products')->leftJoin('products_description', 'products_description.products_id', '=','products.products_id')->select('products.*', 'products_description.*',DB::raw("(SELECT i.image FROM products_images as i
+        WHERE i.products_id = products.products_id
+      LIMIT 1) as image"))->where('products.products_author',$user_id)->get();
 	  
-	   //dd($Products);
-	   
-	
         return $Products;
     }
 	
@@ -1579,8 +1576,7 @@ public function insert($request){
     {
       
         $products_id = $request->id;
-dd($products_id);die;
-        DB::table('Products')->where([
+        DB::table('products')->where([
             ['products_id', '=', $products_id],
         ])->delete();
 
@@ -1594,11 +1590,28 @@ dd($products_id);die;
 
     }
 	
+	public function deleterecipeimg($request)
+    {
+      
+        $img_id = $request->id;
+		
+        DB::table('products_images')->where([
+            ['id', '=', $img_id],
+        ])->delete();
+
+      
+        $check = DB::table('customers_basket')
+            ->where('customers_basket.session_id', '=', Session::getId())
+            ->first();
+        return $check;
+
+    }
+	
 	public function editMyRecipeSave($request){
 		   $products_id = $request->products_id;
           $products_last_modified	= date('Y-m-d h:i:s');
           
-           DB::table('Products')->where('products_id',$products_id)->update([         
+           DB::table('products')->where('products_id',$products_id)->update([         
 			    'products_quantity' => 0,
 				'updated_at' => $products_last_modified,
 				'products_price' => $request->setprice,
@@ -1642,7 +1655,7 @@ dd($products_id);die;
 				$destinationPath = 'product_img/product_'.$products_id;
 				$file->move($destinationPath, $fileName); 
                
-			   DB::table('products_images')->update([
+			   DB::table('products_images')->insert([
 				'products_id' => $products_id,
 				'image' => $fileName,
         ]);
@@ -1701,6 +1714,40 @@ dd($products_id);die;
           $result['data'] = array('products_id'=>$products_id);
           return $result;
   }
+	
+	public function updatemyrecipeimg($request){
+		   $products_images_id = $request->products_images_id;
+         $products = DB::table('products_images')->where('id', $products_images_id)->get()->first();
+	   $products_id = $products->products_id;
+                 
+                  
+         
+		 if($request->file('file')){
+                 $image = $request->file('file');
+                $path = $image->getRealPath();      
+                $name =  time().uniqid().$image->getClientOriginalName();
+                $destinationPath = 'product_img/product_'.$products_id;
+                $image->move($destinationPath, $name); 
+            
+					
+                
+			   DB::table('products_images')->where('id', '=', $products_images_id)->update([
+				'products_id' => $products_id,
+				'image' => $name,
+        ]);
+            
+        }        
+           
+          
 
+
+          
+         
+          
+                        
+			  
+          $result['data'] = array('products_id'=>$products_id);
+          return $result;
+  }
    
 }

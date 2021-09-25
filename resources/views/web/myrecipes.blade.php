@@ -95,10 +95,13 @@
 										<div class="author-contain d-flex justify-content-between">
 											<div class="author-social-wrap author-selfIn-list d-flex align-items-center justify-content-between">
 												<div class="social-item text-center">
-													<a class="btn btn-primary" style="width: 100%; " href="{{ URL::to('/editMyRecipe/'.$prod->products_id)}}">Edit Recipe</a>
+													<a class="btn btn-primary" style="width: 100%; " href="{{ URL::to('/editMyRecipe/'.$prod->products_id)}}">Edit </a>
 												</div>
 												<div class="social-item text-center">
-													<a class="btn btn-danger" style="width: 100%;" href="{{ URL::to('/deleteMyRecipe/'.$prod->products_id)}}">Delete Recipe</a>
+													<a class="btn btn-danger" style="width: 100%;" href="{{ URL::to('/deleteMyRecipe/'.$prod->products_id)}}">Delete </a>
+												</div>
+												<div class="social-item text-center">
+													<a class="btn btn-primary" style="width: 100%; " href="{{ URL::to('/myrecipeimg/'.$prod->products_id)}}"> img</a>
 												</div>
 												
 											</div>

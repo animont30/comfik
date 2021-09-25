@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Models\Web;
+use Illuminate\Support\Facades\DB;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\AdminControllers\AlertController;
 use Session;
+
 
 class Products extends Model
 {
@@ -1496,5 +1497,210 @@ public function insert($request){
 
         return ($response);
     }
+	
+	public function updateMyRecipe($request){
+	//dd($request);	 
+     $date_added	= date('Y-m-d h:i:s');
+	 $user_id = auth()->guard('customer')->user()->id;
+	 
+       $products_id = DB::table('products')->insertGetId([
+        //'products_image' => $uploadImage,
+		'products_author' => $user_id,
+        'products_price' => $request->setprice,
+        'created_at' => $date_added,
+        'products_weight' => $request->products_weight,
+        'products_weight_unit' => $request->products_weight_unit,
+        'low_limit' => 0,
+        'products_slug' => 0,
+        'products_type' => $request->food_type,
+        'is_feature' => $request->is_feature,
+        'products_video_link' => $request->videourl,
+        'products_sell' => $request->products_sell,
+        'products_deliver_time'  => $request->products_deliver_time,
+		
+		
+		
+    ]);
+	
+	    $req_products_name = $request->products_name ;
+        $req_products_listofingredients = $request->ingredients;
+		$req_products_howtoprepare = $request->products_howtoprepare;
+	  DB::table('products_description')->insert([
+            'products_name' => $req_products_name,
+            'products_id' => $products_id,
+            'products_listofingredients' => $req_products_listofingredients,
+			'products_howtoprepare' => $req_products_howtoprepare,
+        ]);
+		$products_ids = $products_id;
+		
+		if($request->hasfile('file')) {
+	
+            foreach($request->file('file') as $file)
+            {
+					
+                $fileName = time().rand(0, 1000).pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $fileName = $fileName.'.'.$file->getClientOriginalExtension();
+				$destinationPath = 'product_img/product_'.$products_ids;
+				$file->move($destinationPath, $fileName); 
+               
+			   DB::table('products_images')->insert([
+				'products_id' => $products_id,
+				'image' => $fileName,
+        ]);
+            }
+        }    
+	//insert for products_to_categories
+		$serving_for = $request->serving_for ;
+	  DB::table('products_to_categories')->insert([
+            
+            'products_id' => $products_id,
+            'categories_id' => $serving_for,
+        ]);
+        return $products_id;
+    }
 
+
+
+		public function paginator($request){
+       
+	    $user_id = auth()->guard('customer')->user()->id;
+	   $Products = DB::table('Products')->leftJoin('products_description', 'products_description.products_id', '=','products.products_id')->leftJoin('products_images', 'products_images.products_id', '=','products.products_id')->select('products.*', 'products_description.*','products_images.image')->where('products.products_author',$user_id)->get();
+	   
+	    
+	  
+	   //dd($Products);
+	   
+	
+        return $Products;
+    }
+	
+	
+	public function deleteMyRecipe($request)
+    {
+      
+        $products_id = $request->id;
+dd($products_id);die;
+        DB::table('Products')->where([
+            ['products_id', '=', $products_id],
+        ])->delete();
+
+        DB::table('products_description')->where([
+            ['products_id', '=', $products_id],
+        ])->delete();
+        $check = DB::table('customers_basket')
+            ->where('customers_basket.session_id', '=', Session::getId())
+            ->first();
+        return $check;
+
+    }
+	
+	public function editMyRecipeSave($request){
+		   $products_id = $request->products_id;
+          $products_last_modified	= date('Y-m-d h:i:s');
+          
+           DB::table('Products')->where('products_id',$products_id)->update([         
+			    'products_quantity' => 0,
+				'updated_at' => $products_last_modified,
+				'products_price' => $request->setprice,
+				'products_weight' => $request->products_weight,
+				'products_weight_unit' => $request->products_weight_unit,
+				'low_limit' => 0,
+				'products_slug' => 0,
+				'products_type' => $request->food_type,
+				'is_feature' => $request->is_feature,
+				'products_video_link' => $request->videourl,
+				'products_sell' => $request->products_sell,
+				'products_deliver_time'  => $request->products_deliver_time,
+
+          ]);
+       
+                   $req_products_name = $request->products_name ;
+					$req_products_listofingredients = $request->ingredients;
+					$req_products_howtoprepare = $request->products_howtoprepare;
+				 DB::table('products_description')->where('products_id', '=', $products_id)->update([
+						'products_name' => $req_products_name,
+						'products_id' => $products_id,
+						'products_listofingredients' => $req_products_listofingredients,
+						'products_howtoprepare' => $req_products_howtoprepare,
+					]);
+                  
+            //update for products_to_categories
+		$serving_for = $request->serving_for ;
+	  DB::table('products_to_categories')->where('products_id', '=', $products_id)->update([
+            'products_id' => $products_id,
+            'categories_id' => $serving_for,
+        ]);
+           
+		
+		if($request->hasfile('file')) {
+	 
+            foreach($request->file('file') as $file)
+            {
+					
+                $fileName = time().rand(0, 1000).pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $fileName = $fileName.'.'.$file->getClientOriginalExtension();
+				$destinationPath = 'product_img/product_'.$products_id;
+				$file->move($destinationPath, $fileName); 
+               
+			   DB::table('products_images')->update([
+				'products_id' => $products_id,
+				'image' => $fileName,
+        ]);
+            }
+        }        
+           
+          
+
+          //special product
+          if($request->isSpecial == 'yes'){
+            DB::table('specials')->where('products_id', '=', $products_id)->update([
+                'specials_last_modified' => $products_last_modified,
+                'date_status_change' => $products_last_modified,
+                'status' => 0,
+            ]);
+            DB::table('specials')->insert([
+                'products_id' => $products_id,
+                'specials_new_products_price' => $request->specials_new_products_price,
+                'specials_date_added' => time(),
+                'expires_date' => $expiryDateFormate,
+                'status' => $request->status,
+            ]);
+            }else if($request->isSpecial == 'no'){
+              DB::table('specials')->where('products_id', '=', $products_id)->delete();
+            }
+
+          //flash sale product
+          if($request->isFlash == 'yes'){
+            DB::table('flash_sale')->where('products_id', '=', $products_id)->update([
+                'updated_at' => $products_last_modified,
+                'flash_status' => 0,
+            ]);
+              $startdate = $request->flash_start_date;
+              $starttime = $request->flash_start_time;
+              $start_date = str_replace('/','-',$startdate.' '.$starttime);
+              $flash_start_date = strtotime($start_date);
+              $expiredate = $request->flash_expires_date;
+              $expiretime = $request->flash_end_time;
+              $expire_date = str_replace('/','-',$expiredate.' '.$expiretime);
+              $flash_expires_date = strtotime($expire_date);
+              DB::table('flash_sale')->insert([
+                  'products_id' => $products_id,
+                  'flash_sale_products_price' => $request->flash_sale_products_price,
+                  'created_at' => $products_last_modified,
+                  'flash_start_date' => $flash_start_date,
+                  'flash_expires_date' => $flash_expires_date,
+                  'flash_status' => $request->flash_status
+              ]);
+           }else if($request->isFlash == 'no'){
+             DB::table('flash_sale')->where('products_id', '=', $products_id)->delete();                
+            }
+         
+          
+                        
+			  
+          $result['data'] = array('products_id'=>$products_id);
+          return $result;
+  }
+
+   
 }

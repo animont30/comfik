@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\Return_;
 use Kyslik\ColumnSortable\Sortable;
 use App\Models\Core\User;
 use App\Models\Core\Setting;
+use App\Models\Web\Products;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 
 class Customers extends Model
@@ -528,4 +529,7 @@ class Customers extends Model
         return $user;
 
     }
+	
+	
+	 
 }

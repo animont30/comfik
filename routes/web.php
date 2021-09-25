@@ -50,7 +50,11 @@ Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 		Route::get('/profile', 'CustomersController@profile')->middleware('Customer');
 		Route::get('/dashboard', 'CustomersController@dashboard')->middleware('Customer');
 		Route::get('/myrecipes', 'CustomersController@myrecipes')->middleware('Customer');
-		Route::get('/uploadrecipes', 'CustomersController@uploadrecipes')->middleware('Customer');Route::post('/updateMyRecipe', 'CustomersController@updateMyRecipe')->middleware('Customer');
+		Route::get('/uploadrecipes', 'CustomersController@uploadrecipes')->middleware('Customer');
+		Route::post('/updateMyRecipe', 'CustomersController@updateMyRecipe')->middleware('Customer');
+		Route::get('deleteMyRecipe/{id}', 'CustomersController@deleteMyRecipe')->middleware('Customer');
+		Route::get('editMyRecipe/{id}', 'CustomersController@editMyRecipe')->middleware('Customer');
+		Route::post('/editMyRecipeSave', 'CustomersController@editMyRecipeSave')->middleware('Customer');
 		Route::get('/author/{id}', 'CustomersController@author')->middleware('Customer');
 		Route::get('/change-password', 'CustomersController@changePassword')->middleware('Customer');
 		

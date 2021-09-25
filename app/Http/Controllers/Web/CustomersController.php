@@ -133,6 +133,10 @@ class CustomersController extends Controller
 	public function updateMyRecipe(Request $request)
 	{
 		
+		 $product_id = $this->products->updateMyRecipe($request);
+		return redirect('/uploadrecipes');
+      //  return redirect()->back()->with('product_id', $product_id);
+  
 	}
 	public function uploadrecipes()
 	{
@@ -141,6 +145,7 @@ class CustomersController extends Controller
 		  $result['manufacturers'] = $this->products->manufacturers();
         $final_theme = $this->theme->theme();
         $result['commonContent'] = $this->index->commonContent();
+		
 		 return view('web.uploadrecipes',['result' => $result,'final_theme' => $final_theme]);
 	}
 	public function author(Request $request, $id)
@@ -150,7 +155,7 @@ class CustomersController extends Controller
 		 $result['author'] = DB::table('users')->where('id', $id)->first();
 		
 		
-		 //min_price
+		 //min_price 
        
             $min_price = '';
         
@@ -212,6 +217,7 @@ class CustomersController extends Controller
 	{
 		 $result = array();
 		 $id = auth()->guard('customer')->user()->id;
+		 
 		 $result['author'] = DB::table('users')->where('id', $id)->first();
 		
 		
@@ -256,23 +262,50 @@ class CustomersController extends Controller
 		
 		  $data = array('page_number' => $request->page_number, 'type' => $type, 'limit' => $limit, 'categories_id' => $categories_id, 'search' => $search, 'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price,"author_id"=> $id);
 		  
-		  
-		  $products = $this->products->products($data);
-		  $result['totallikes']=$result['totalreviews']=$result['totalviewed']=$result['totalordered']=0;
-		  foreach($products['product_data'] as $prod)
-		  {
-			  $result['totallikes']+=$prod->products_liked;
-			  $result['totalreviews']+=$prod->total_user_rated;
-			  $result['totalviewed']+=$prod->products_viewed;
-			  $result['totalordered']+=$prod->products_ordered;
-		  }
-		 
-		 $title = $result['author']->first_name.' '. $result['author']->last_name.' Recipes';
+		  $products = $this->products->paginator($data);
+		   
         $result['products'] = $products;
         $final_theme = $this->theme->theme();
         $result['commonContent'] = $this->index->commonContent();
 		 return view('web.myrecipes',['result' => $result,'final_theme' => $final_theme]);
 	}
+	
+	  //deleteMyRecipe
+    public function deleteMyRecipe(Request $request)
+    {
+     $this->products->deleteMyRecipe($request);
+        return redirect()->back()->withErrors([Lang::get("labels.ProducthasbeendeletedMessage")]);
+      }
+	
+	 public function editMyRecipe($id)
+    {
+       
+	   $Products = DB::table('Products')->leftJoin('products_description', 'products_description.products_id', '=','products.products_id')->leftJoin('products_to_categories', 'products_to_categories.products_id', '=','products.products_id')->select('products.*', 'products_description.*', 'products_to_categories.*')->where('Products.products_id', $id)->first();
+	   //dd($Products);
+		$result = array();
+		  $result['categories'] = $this->products->categories();
+		  $result['manufacturers'] = $this->products->manufacturers();
+        $final_theme = $this->theme->theme();
+        $result['commonContent'] = $this->index->commonContent();
+        
+		
+		 return view('web.editMyRecipes',['Products'=> $Products,'result' => $result,'final_theme' => $final_theme]);
+		}
+		
+	 public function editMyRecipeSave(Request $request)
+    {      
+       
+        $result = $this->products->editMyRecipeSave($request);
+        $products_id = $request->products_id;
+        if ($request->products_type == 1) {
+            return redirect('myrecipes/');
+        } else {
+            return redirect('editMyRecipe/' . $products_id);
+        }
+    }	
+		
+	
+	
 	public function dashboard()
 	{
 		 $result = array();

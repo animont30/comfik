@@ -38,11 +38,11 @@
                   {!! $result['detail']['product_data'][0]->products_video_link !!}                 
                 </a>
                 @endif
-
+				@if(!empty($result['detail']['product_data'][0]->default_images))
                 <a class="slider-for__item ex1 fancybox-button" href="{{asset('').$result['detail']['product_data'][0]->default_images }}" data-fancybox-group="fancybox-button">
                   <img src="{{asset('').$result['detail']['product_data'][0]->default_images }}" alt="Zoom Image" />
                 </a>
-            
+           
                 @foreach( $result['detail']['product_data'][0]->images as $key=>$images )
                   @if($images->image_type == 'LARGE')
 
@@ -56,6 +56,7 @@
                   </a>
                   @endif
                 @endforeach
+				 @endif
               </div>
             
               <div class="slider-nav">
@@ -64,6 +65,7 @@
                   <img src="{{asset('web/images/miscellaneous/video-thumbnail.jpg')}}" alt="Zoom Image"/>
                 </div>
                 @endif
+				@if(!empty($result['detail']['product_data'][0]->default_images))
                 <div class="slider-nav__item">
                   <img src="{{asset('').$result['detail']['product_data'][0]->default_thumb }}" alt="Zoom Image"/>
                 </div>
@@ -76,7 +78,7 @@
                     </div>
                   @endif
                 @endforeach
-                
+                 @endif
               </div>
             </div>
       </div>
@@ -88,7 +90,9 @@
                 <div class="col-12 col-md-12 col-lg-6">
                   <div class="product">
                     <article>
-                      <img src="{{asset('').$result['detail']['product_data'][0]->default_images }}" class="img-fluid" alt="blogImage">
+					@if(!empty($result['detail']['product_data'][0]->default_images))
+                      <img src="{{asset('').$result['detail']['product_data'][0]->default_images  }}" class="img-fluid" alt="blogImage">
+				  
                         <div class="over"></div>
                     </article>
                   </div>
@@ -117,7 +121,7 @@
                   </div>
                   @endif
                 @endforeach
-
+@endif
                 
                 </div>  
           </div>
@@ -661,15 +665,29 @@
                         <div class="col-12 col-lg-6">
                                 <div class="recipe_featured_img d-flex align-items-start flex-column flex-md-row mt-3">
                                     <div class="contain_thumbs d-flex flex-row flex-md-column">
-                                    <div class="thumb_item"><img src="{{asset('').$result['detail']['product_data'][0]->default_images }}" alt="Zoom Image" class="pick"/></div> 
+                                    <div class="thumb_item">@if(!empty($result['detail']['product_data'][0]->default_images ))<img src="{{asset('').$result['detail']['product_data'][0]->default_images }}" alt="Zoom Image" class="pick"/>
+									@else
+										<img src="{{asset('/product_img/product_'.$result['products_images'][0]->products_id.'/'.$result['products_images'][0]->image ?? '')}}" alt="Zoom Image" class="pick"/>
+									@endif</div> 
+									@if(!empty($result['detail']['product_data'][0]->images ))
                                     @foreach( $result['detail']['product_data'][0]->images as $key=>$images )
                                       @if($images->image_type == 'THUMBNAIL')
                                        <div class="thumb_item"><img src="{{asset('').$images->image_path }}" alt="Zoom Image" class="pick"/></div> 
                                        @endif
                                         @endforeach
+										@else
+											@foreach($result['products_images'] as $images ) 
+									
+                                       <div class="thumb_item"><img src="{{asset('/product_img/product_'.$images->products_id.'/'.$images->image ?? '')}}" alt="Zoom Image" class="pick"/></div>                                      
+                                        @endforeach
+										@endif
                                     </div>
+									
                                     <div class="contain_featured_img">
+									@if(!empty($result['detail']['product_data'][0]->default_images ))
                                     <img src="{{asset('').$result['detail']['product_data'][0]->default_images }}" class="img-fluid" alt="Featured Image">
+								@endif
+									@if(!empty($result['detail']['product_data'][0]->images ))
                                     @foreach( $result['detail']['product_data'][0]->images as $key=>$images )
                                       @if($images->image_type == 'LARGE')
                                         <img src="{{asset('').$images->image_path }}" class="img-fluid" alt="Featured Image">
@@ -678,7 +696,9 @@
                                         <img src="{{asset('').$images->image_path }}" class="img-fluid" alt="Featured Image">
                                         @endif
                                         @endforeach
-
+                                         @else
+										<img src="{{asset('/product_img/product_'.$result['products_images'][0]->products_id.'/'.$result['products_images'][0]->image ?? '')}}" alt="Zoom Image" class="pick"/>
+									@endif 
 
                                         <!-- @if(!empty($result['detail']['product_data'][0]->products_video_link))
                                           <a class="slider-for__item ex1 fancybox-button iframe">

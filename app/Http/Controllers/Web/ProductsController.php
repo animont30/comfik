@@ -430,7 +430,8 @@ class ProductsController extends Controller
             
              //category
              $category = $this->products->getCategoryByParent($products[0]->products_id);
- 
+              $product_id = $products[0]->products_id;
+
              if (!empty($category) and count($category) > 0) {
                  $category_slug = $category[0]->categories_slug;
                  $category_name = $category[0]->categories_name;
@@ -486,7 +487,9 @@ class ProductsController extends Controller
  
              $data = array('page_number' => '0', 'type' => 'topseller', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
              $top_seller = $this->products->products($data);
-             $result['top_seller'] = $top_seller;		
+             $result['top_seller'] = $top_seller;	
+             $result['products_images']  = DB::table('products_images')->where('products_images.products_id',$product_id)->get();
+          		 
          }else{
              $products = '';
              $result['detail']['product_data'] = '';
@@ -552,7 +555,7 @@ class ProductsController extends Controller
          $currency_symbol = session('symbol_left') ? session('symbol_left') : session('symbol_right') ;
          $currency  = DB::table('currencies')->where('symbol_left',$currency_symbol)->orwhere('symbol_right',$currency_symbol)->first();
          $result['currency_value'] = $currency ? $currency->value : 1;
-        //  dd($result['currency_value']);
+			
          return view("web.detail", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
      }
 

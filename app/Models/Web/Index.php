@@ -497,6 +497,8 @@ class Index extends Model
         $result = array();
         foreach ($baskit as $baskit_data) {
             //products_image
+			if(!empty($default_images )){
+				
             $default_images = DB::table('image_categories')
                 ->where('image_id', '=', $baskit_data->products_image)
                 ->where('image_type', 'THUMBNAIL')
@@ -522,6 +524,7 @@ class Index extends Model
 
             }
             array_push($result, $baskit_data);
+			}
         }
 
         return ($result);

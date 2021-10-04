@@ -67,7 +67,7 @@ class ProductsController extends Controller
         }
     }
 
-    //shop
+        //shop
     public function shop(Request $request)
     {
         $title = array('pageTitle' => Lang::get('website.Shop'));
@@ -107,7 +107,7 @@ class ProductsController extends Controller
         //category
         if (!empty($request->category) and $request->category != 'all') {
             $category = $this->products->getCategories($request);
-            
+           
             if(!empty($category) and count($category)>0){
                 $categories_id = $category[0]->categories_id;
                 //for main
@@ -146,7 +146,7 @@ class ProductsController extends Controller
         $result['category_slug'] = $category_slug;
         $result['sub_category_name'] = $sub_category_name;
         $result['categories_status'] = $categories_status;
-
+//dd($result['category_name']);
         //search value
         if (!empty($request->search)) {
             $search = $request->search;
@@ -196,7 +196,7 @@ class ProductsController extends Controller
         $data = array('page_number' => $page_number, 'type' => $type, 'limit' => $limit,
             'categories_id' => $categories_id, 'search' => $search,
             'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price,'brand' => $brand);
-	
+
         $products = $this->products->products($data);        
         $result['products'] = $products;
 
@@ -223,7 +223,6 @@ class ProductsController extends Controller
         return view("web.shop", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
 
     }
-
     public function filterProducts(Request $request)
     {
 

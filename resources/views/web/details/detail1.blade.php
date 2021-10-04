@@ -862,7 +862,7 @@
                         </div>
                         @endif
                         @if(Auth::guard('customer')->check())
-                        <div class="write-review mt-5">
+                        <!--<div class="write-review mt-5">
                           <form id="idForm">
                             {{csrf_field()}}
                             <input value="{{$result['detail']['product_data'][0]->products_id}}" type="hidden" name="products_id">
@@ -911,7 +911,7 @@
                           </div>
                           
                         </form>
-                        </div>
+                        </div>-->
                         @endif
                     </div>
 

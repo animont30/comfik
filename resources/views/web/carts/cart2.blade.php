@@ -94,10 +94,17 @@
                                   <span class="fas fa-times" id="cartDelete"></span>
                               </a> 
                   </td>
+				  
                     <td class="col-12 col-md-2" >
+					@if(!empty($products->image_path))
                       <a href="{{ URL::to('/product-detail/'.$products->products_slug)}}" class="cart-thumb">
                         <img class="img-fluid" src="{{asset('').$products->image_path}}" alt="{{$products->products_name}}"/>
                         </a>
+						@else
+						<a href="{{ URL::to('/product-detail/'.$products->products_slug)}}" class="cart-thumb">
+                        <img class="img-fluid" src="{{asset('/product_img/product_'.$products->products_id.'/'.$products->image ?? '')}}" alt="{{$products->products_name}}"/>
+                        </a>
+						@endif
                     </td>
                       <td class="col-12 col-md-4 item-detail-left">
                         <div class="item-detail">

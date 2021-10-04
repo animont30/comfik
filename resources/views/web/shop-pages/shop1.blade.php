@@ -3,6 +3,7 @@
     <nav aria-label="breadcrumb">
         <div class="container">
             <ol class="breadcrumb">
+			
               @if(!empty($result['category_name']) and !empty($result['sub_category_name']))
               <li class="breadcrumb-item"><a href="{{ URL::to('/')}}">@lang('website.Home')</a></li>
               <li  class="breadcrumb-item"><a href="{{ URL::to('/shop')}}">@lang('website.Shop')</a></li>
@@ -376,10 +377,13 @@
                               <div class="products-area">
                                   <div class="row">  
                                     @if($result['categories_status'] == 1)
-                                      @foreach($result['products']['product_data'] as $key=>$products)    
-
+									@php
+								dd($result['products']);
+								@endphp
+                                      @foreach($result['products'] as $key=>$products)    
+	
                                       <?php 
-                                        $is_status = false;
+                                       // $is_status = false;
                                         if(!empty($products->categories)){
                                           foreach($products->categories as $key=>$category){
                                               if($category->categories_status == 1)
@@ -387,11 +391,13 @@
                                           } 
                                         }
                                         
-                                        if($is_status == true){
+                                      //  if($is_status == true)
+									  {
                                         ?>
                                    
                                       <div class="col-12 col-lg-4 col-sm-6 griding">
-                                      <article class="article_wrapper pluto-post-box">  
+                                      <article class="article_wrapper pluto-post-box"> 
+									  
                                         @include('web.common.product')
                                         </article>
                                       </div>

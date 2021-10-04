@@ -30,7 +30,7 @@ class Cart extends Model
                'image_categories.path as image_path', 'products.products_model as model',
                'products.products_type as products_type', 'products.products_min_order as min_order', 'products.products_max_stock as max_order',
                'products.products_image as image', 'products_description.products_name as products_name', 'products.products_price as price',
-               'products.products_weight as weight', 'products.products_weight_unit as unit', 'products.products_slug','customers_basket_quantity as quantity')
+               'products.products_weight as weight', 'products.products_weight_unit as unit', 'products.products_image','products.products_slug','customers_basket_quantity as quantity')
            ->where([
                ['customers_basket.is_order', '=', '0'],
                ['products_description.language_id', '=', Session::get('language_id')],
@@ -108,15 +108,11 @@ class Cart extends Model
                    if ($default_images) {
                        $cart_data->image_path = $default_images->path;
                    } else {
-                       $default_images = DB::table('image_categories')
-                           ->where('image_id', '=', $cart_data->image)
-                           ->where('image_type', 'ACTUAL')
-                           ->first();
-                       $cart_data->image_path = $default_images->path;
+                        $default_images = DB::table('products_images')->where('products_id',$cart_data->products_id)->get();
+						
                    }
 
                }
-
                //categories
                $categories = DB::table('products_to_categories')
                    ->leftjoin('categories', 'categories.categories_id', 'products_to_categories.categories_id')

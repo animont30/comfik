@@ -864,7 +864,7 @@
                         </div>
                         <?php endif; ?>
                         <?php if(Auth::guard('customer')->check()): ?>
-                        <div class="write-review mt-5">
+                        <!--<div class="write-review mt-5">
                           <form id="idForm">
                             <?php echo e(csrf_field()); ?>
 
@@ -914,7 +914,7 @@
                           </div>
                           
                         </form>
-                        </div>
+                        </div>-->
                         <?php endif; ?>
                     </div>
 

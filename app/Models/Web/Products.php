@@ -1273,11 +1273,13 @@ if(!empty($default_images)){
 
     public function getCategories($request)
     {
+		
         $category = DB::table('categories')
         ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
         //->where('categories.categories_status', 1)
-        ->where('categories_slug', $request->category)->where('language_id', Session::get('language_id'))
+        ->where('categories.categories_id', $request->category)->where('language_id', Session::get('language_id'))
         ->get();
+		
         return $category;
     }
 

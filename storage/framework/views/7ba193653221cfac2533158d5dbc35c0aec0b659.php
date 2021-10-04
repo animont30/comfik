@@ -3,6 +3,7 @@
     <nav aria-label="breadcrumb">
         <div class="container">
             <ol class="breadcrumb">
+			
               <?php if(!empty($result['category_name']) and !empty($result['sub_category_name'])): ?>
               <li class="breadcrumb-item"><a href="<?php echo e(URL::to('/')); ?>"><?php echo app('translator')->get('website.Home'); ?></a></li>
               <li  class="breadcrumb-item"><a href="<?php echo e(URL::to('/shop')); ?>"><?php echo app('translator')->get('website.Shop'); ?></a></li>
@@ -376,10 +377,13 @@
                               <div class="products-area">
                                   <div class="row">  
                                     <?php if($result['categories_status'] == 1): ?>
-                                      <?php $__currentLoopData = $result['products']['product_data']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$products): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>    
-
+									<?php
+								dd($result['products']);
+								?>
+                                      <?php $__currentLoopData = $result['products']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$products): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>    
+	
                                       <?php 
-                                        $is_status = false;
+                                       // $is_status = false;
                                         if(!empty($products->categories)){
                                           foreach($products->categories as $key=>$category){
                                               if($category->categories_status == 1)
@@ -387,11 +391,13 @@
                                           } 
                                         }
                                         
-                                        if($is_status == true){
+                                      //  if($is_status == true)
+									  {
                                         ?>
                                    
                                       <div class="col-12 col-lg-4 col-sm-6 griding">
-                                      <article class="article_wrapper pluto-post-box">  
+                                      <article class="article_wrapper pluto-post-box"> 
+									  
                                         <?php echo $__env->make('web.common.product', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                                         </article>
                                       </div>

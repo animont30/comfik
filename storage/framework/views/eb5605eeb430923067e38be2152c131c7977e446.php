@@ -99,10 +99,10 @@
 										
 										</div>
 										<div class="form-group mt-4 mb-3">
-											<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="<?php echo app('translator')->get('Valid phone number'); ?>" value="<?php echo e(old('phone')); ?>">
+											<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="<?php echo app('translator')->get('Valid phone number'); ?>" value="<?php echo e(old('phone')); ?>" maxlength="10">
 													<span class="form-text text-muted error-content" hidden><?php echo app('translator')->get('website.Please enter your valid phone number'); ?></span>
 										</div>
-										<div class="form-group mt-4 mb-3"><input name="password" id="password" type="password" class="form-control password"  placeholder="<?php echo app('translator')->get('Your password'); ?>"  required>
+										<div class="form-group mt-4 mb-3"><input name="password" id="password" type="password" class="form-control password"  placeholder="<?php echo app('translator')->get('Your password'); ?>"  required >
 												<span class="form-text text-muted error-content" hidden><?php echo app('translator')->get('website.Please enter your password'); ?></span>
 										</div>
 										<div class="form-group mt-4 mb-3"><input type="password" class="form-control password" id="re_password" name="re_password" placeholder="Confirm Password">

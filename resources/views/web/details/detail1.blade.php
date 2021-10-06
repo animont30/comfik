@@ -642,7 +642,7 @@
                                         
                                     </div>
                                     <div class="post-created-details">
-                                        <h5><a href="#">By {{$result['author']->first_name}} {{$result['author']->last_name}}</a>, {{$result['author']->locality}} on {{$result['detail']['product_data'][0]->created_at}} In <a href="{{ URL::to('/shop?category='.$result['category_slug'])}}">{{$result['category_name']}}</a>.</h5>
+                                        <h5><a href="{{ URL::to('/author/'.$result['author']->id)}}">By {{$result['author']->first_name}} {{$result['author']->last_name}}</a>, {{$result['author']->locality}} on {{$result['detail']['product_data'][0]->created_at}} In <a href="{{ URL::to('/shop?category='.$result['category_slug'])}}">{{$result['category_name']}}</a>.</h5>
                                         <div class="contain-recipe-sharings d-flex align-items-center">
                                             <div class="item-shareing d-flex align-items-center">
                                                 <img src="{{asset('./images/media/2021/08/recipe.png')}}" alt="recipes icon">

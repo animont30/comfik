@@ -1538,12 +1538,12 @@ if(!empty($default_images)){
 	
 	    $req_products_name = $request->products_name ;
         $req_products_listofingredients = $request->ingredients;
-		$req_products_howtoprepare = $request->products_howtoprepare;
+		$description = $request->description;
 	  DB::table('products_description')->insert([
             'products_name' => $req_products_name,
             'products_id' => $products_id,
             'products_listofingredients' => $req_products_listofingredients,
-			'products_howtoprepare' => $req_products_howtoprepare,
+			'products_description' => $description,
         ]);
 		$products_ids = $products_id;
 		
@@ -1649,12 +1649,12 @@ if(!empty($default_images)){
        
                    $req_products_name = $request->products_name ;
 					$req_products_listofingredients = $request->ingredients;
-					$req_products_howtoprepare = $request->products_howtoprepare;
+					$products_description = $request->products_description;
 				 DB::table('products_description')->where('products_id', '=', $products_id)->update([
 						'products_name' => $req_products_name,
 						'products_id' => $products_id,
 						'products_listofingredients' => $req_products_listofingredients,
-						'products_howtoprepare' => $req_products_howtoprepare,
+						'products_description' => $products_description,
 					]);
                   
             //update for products_to_categories

@@ -377,9 +377,7 @@
                               <div class="products-area">
                                   <div class="row">  
                                     @if($result['categories_status'] == 1)
-									@php
-								dd($result['products']);
-								@endphp
+									
                                       @foreach($result['products'] as $key=>$products)    
 	
                                       <?php 

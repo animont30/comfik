@@ -106,13 +106,13 @@
                                 </div>
                                 
                                 <div class="form-row">
-                                    <div class="form-group col-md-12">
+                                    <!--<div class="form-group col-md-12">
                                         <label for="inputEmail4">Ingredients</label>
                                         <textarea name="ingredients" class="form-control" id="" cols="100%" rows="5"> <?php echo e($Products->products_listofingredients); ?></textarea>
-                                    </div>
+                                    </div>-->
                                     <div class="form-group col-md-12">
-                                        <label for="inputEmail4">Recipe</label>
-                                        <textarea name="products_howtoprepare" id="" class="form-control" cols="100%" rows="10"> <?php echo e($Products->products_howtoprepare); ?></textarea>
+                                        <label for="inputEmail4">Description</label>
+                                        <textarea name="products_description" id="" class="form-control" cols="100%" rows="10"> <?php echo e($Products->products_description); ?></textarea>
                                     </div>
                                 </div>
                                 

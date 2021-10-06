@@ -98,10 +98,10 @@
 										
 										</div>
 										<div class="form-group mt-4 mb-3">
-											<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="@lang('Valid phone number')" value="{{ old('phone') }}">
+											<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="@lang('Valid phone number')" value="{{ old('phone') }}" maxlength="10">
 													<span class="form-text text-muted error-content" hidden>@lang('website.Please enter your valid phone number')</span>
 										</div>
-										<div class="form-group mt-4 mb-3"><input name="password" id="password" type="password" class="form-control password"  placeholder="@lang('Your password')"  required>
+										<div class="form-group mt-4 mb-3"><input name="password" id="password" type="password" class="form-control password"  placeholder="@lang('Your password')"  required >
 												<span class="form-text text-muted error-content" hidden>@lang('website.Please enter your password')</span>
 										</div>
 										<div class="form-group mt-4 mb-3"><input type="password" class="form-control password" id="re_password" name="re_password" placeholder="Confirm Password">

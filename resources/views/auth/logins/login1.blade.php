@@ -164,7 +164,7 @@
 											<div class="from-group mb-3">
 												<div class="col-12"> <label for="inlineFormInputGroup"><strong style="color: red;">*</strong>@lang('website.Phone Number')</label></div>
 												<div class="input-group col-12">
-													<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="@lang('website.Please enter your valid phone number')" value="{{ old('phone') }}">
+													<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="@lang('website.Please enter your valid phone number')" value="{{ old('phone') }}" maxlength="10">
 													<span class="form-text text-muted error-content" hidden>@lang('website.Please enter your valid phone number')</span>
 												</div>
 											</div>

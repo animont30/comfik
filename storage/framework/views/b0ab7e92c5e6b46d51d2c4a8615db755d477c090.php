@@ -170,7 +170,7 @@
 											<div class="from-group mb-3">
 												<div class="col-12"> <label for="inlineFormInputGroup"><strong style="color: red;">*</strong><?php echo app('translator')->get('website.Phone Number'); ?></label></div>
 												<div class="input-group col-12">
-													<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="<?php echo app('translator')->get('website.Please enter your valid phone number'); ?>" value="<?php echo e(old('phone')); ?>">
+													<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="<?php echo app('translator')->get('website.Please enter your valid phone number'); ?>" value="<?php echo e(old('phone')); ?>" maxlength="10">
 													<span class="form-text text-muted error-content" hidden><?php echo app('translator')->get('website.Please enter your valid phone number'); ?></span>
 												</div>
 											</div>

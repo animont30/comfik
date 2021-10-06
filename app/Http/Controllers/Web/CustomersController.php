@@ -421,7 +421,7 @@ class CustomersController extends Controller
         $password = Auth::guard('customer')->user()->password;
         if (Hash::check($request->current_password, $password)) {
             $message = $this->customer->updateMyPassword($request);
-            return redirect()->back()->with('success', $message);
+            return redirect('/')->with('success', $message);
         }else{
             return redirect()->back()->with('error', lang::get("website.Current password is invalid"));
         }

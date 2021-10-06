@@ -643,7 +643,7 @@
                                         
                                     </div>
                                     <div class="post-created-details">
-                                        <h5><a href="#">By <?php echo e($result['author']->first_name); ?> <?php echo e($result['author']->last_name); ?></a>, <?php echo e($result['author']->locality); ?> on <?php echo e($result['detail']['product_data'][0]->created_at); ?> In <a href="<?php echo e(URL::to('/shop?category='.$result['category_slug'])); ?>"><?php echo e($result['category_name']); ?></a>.</h5>
+                                        <h5><a href="<?php echo e(URL::to('/author/'.$result['author']->id)); ?>">By <?php echo e($result['author']->first_name); ?> <?php echo e($result['author']->last_name); ?></a>, <?php echo e($result['author']->locality); ?> on <?php echo e($result['detail']['product_data'][0]->created_at); ?> In <a href="<?php echo e(URL::to('/shop?category='.$result['category_slug'])); ?>"><?php echo e($result['category_name']); ?></a>.</h5>
                                         <div class="contain-recipe-sharings d-flex align-items-center">
                                             <div class="item-shareing d-flex align-items-center">
                                                 <img src="<?php echo e(asset('./images/media/2021/08/recipe.png')); ?>" alt="recipes icon">

@@ -15,7 +15,7 @@
         <h2><?php echo app('translator')->get('website.Shopping cart'); ?></h2>           
     </div>
   </div>
-
+<?php if(!empty($result['cart'])): ?>
 <section class=" cart-content">
       <div class="container">
       <div class="row">
@@ -302,6 +302,17 @@
 
     </div>
   </section>
+  <?php else: ?>
+	    <section class=" cart-content">
+            <div class="container">
+			        <div class="row">
+			           <div class="col-12 col-sm-12 cart-area cart-page-one">
+			         <h3>  You have no items in your shopping cart.</h3>
+			         </div>
+				</div>
+            </div>
+        </section>
+  <?php endif; ?>
 </section>
 
 <script>

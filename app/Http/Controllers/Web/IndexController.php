@@ -212,6 +212,7 @@ class IndexController extends Controller
 			  $result['authors'][$id]->totalordered+=$prod->products_ordered;
 		  }
 		  }
+		 // dd($result);
         return view("web.index", ['title' => $title, 'final_theme' => $final_theme])->with(['result' => $result]);
     }
 

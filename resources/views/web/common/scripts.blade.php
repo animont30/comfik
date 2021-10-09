@@ -250,8 +250,9 @@ jQuery(document).on('click','#allow-cookies', function(e){
   jQuery(document).on('click', '.cart', function(e){
 	var parent = jQuery(this);
 	var products_id = jQuery(this).attr('products_id');
-	var quantity = jQuery(this).prev('.item-quantity').children('.products_'+products_id).val();
-	
+	//var quantity = jQuery(this).prev('.product-qty').children('.products_'+products_id).val();
+	var quantity =  parseInt(jQuery('.qty').val());
+	//alert(quantity);
 	if(quantity==undefined){
 		quantity = 1;
 	}

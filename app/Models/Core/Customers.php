@@ -341,7 +341,7 @@ class Customers extends Model
                     ->where('first_name', 'LIKE', '%' .  $parameter . '%')
                     ->orwhere('last_name', 'LIKE', '%' .  $parameter . '%')
                     ->orWhereRaw("concat(first_name, ' ', last_name) like '%$parameter%' ")
-                    ->where('users.role_id','=','2')
+                    ->whereIn('users.role_id',[2,3])
                     ->orderBy('users.id','ASC')
                     ->groupby('users.id')
                     ->paginate(10);
@@ -366,7 +366,7 @@ class Customers extends Model
                         ->orWhere('image_categories.image_type','=',   'ACTUAL');
                 })
                 ->where('email', 'LIKE', '%' .  $parameter . '%')
-                ->where('users.role_id','=','2')
+                ->whereIn('users.role_id',[2,3])
                 ->orderBy('users.id','ASC')
                 ->groupby('users.id')
                 ->paginate(10);
@@ -391,7 +391,7 @@ class Customers extends Model
                         ->orWhere('image_categories.image_type','=',   'ACTUAL');
                 })
                 ->where('phone', 'LIKE', '%' .  $parameter . '%')
-                ->where('users.role_id','=','2')
+                ->whereIn('users.role_id',[2,3])
                 ->orderBy('users.id','ASC')
                 ->groupby('users.id')
                 ->paginate(10);
@@ -418,7 +418,7 @@ class Customers extends Model
                 ->where('address_book.entry_street_address', 'LIKE', '%' .  $parameter . '%')
                 ->orWhere('address_book.entry_city', 'LIKE', '%' .  $parameter . '%')
                 ->orWhere('address_book.entry_state', 'LIKE', '%' .  $parameter . '%')
-                ->where('users.role_id','=','2')
+                ->whereIn('users.role_id',[2,3])
                 ->orderBy('users.id','ASC')
                 ->groupby('users.id')
                 ->paginate(10);
@@ -444,7 +444,7 @@ class Customers extends Model
                         ->orWhere('image_categories.image_type','=',   'ACTUAL');
                 })
                 ->where('address_book.entry_postcode', 'LIKE', '%' .  $parameter . '%')
-                ->where('users.role_id','=','2')
+                ->whereIn('users.role_id',[2,3])
                 ->orderBy('users.id','ASC')
                 ->groupby('users.id')
                 ->paginate(10);
@@ -469,7 +469,7 @@ class Customers extends Model
                         ->orWhere('image_categories.image_type','=',   'ACTUAL');
                 })
                 ->where('address_book.entry_city', 'LIKE', '%' .  $parameter . '%')
-                ->where('users.role_id','=','2')
+                ->whereIn('users.role_id',[2,3])
                 ->orderBy('users.id','ASC')
                 ->groupby('users.id')
                 ->paginate(10);
@@ -494,7 +494,7 @@ class Customers extends Model
                         ->orWhere('image_categories.image_type','=',   'ACTUAL');
                 })
                 ->where('zones.zone_name', 'LIKE', '%' .  $parameter . '%')
-                ->where('users.role_id','=','2')
+                ->whereIn('users.role_id',[2,3])
                 ->orderBy('users.id','ASC')
                 ->groupby('users.id')
                 ->paginate(10);
@@ -519,7 +519,7 @@ class Customers extends Model
                         ->orWhere('image_categories.image_type','=',   'ACTUAL');
                 })
                 ->where('countries.countries_name', 'LIKE', '%' .  $parameter . '%')
-                ->where('users.role_id','=','2')
+                ->whereIn('users.role_id',[2,3])
                 ->orderBy('users.id','ASC')
                 ->groupby('users.id')
                 ->paginate(10);

@@ -89,11 +89,11 @@
                                             @php  $resultsProduct = $results['products']->unique('products_id')->keyBy('products_id');  @endphp
                                             @foreach ($resultsProduct as  $key=>$product)
                                                 <tr>
-												@php
 												
-												@endphp
                                                     <td>{{ $product->products_id }}</td>
-                                                    <td><img src="{{asset($product->path)}}" alt="" height="50px"></td>
+                                                    <td>@if(!empty($product->path))<img src="{{asset($product->path)}}" alt="" height="50px">
+													@else <img src="{{asset('/product_img/product_'.$product->products_id.'/'.$product->products_image ?? '')}}" alt="" eight="50px"/> 
+													@endif</td>
                                                     <td>
                                                         {{ $product->categories_name }}
                                                     </td>

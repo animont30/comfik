@@ -376,9 +376,10 @@ class Customer extends Model
                         ->leftjoin('products', 'products.products_id', '=', 'liked_products.liked_products_id')
                         ->where('products_status', '1')
                         ->where('liked_customers_id', '=', session('customers_id'))->count();
+				
                 }
 
-                DB::table('products')->where('products_id', '=', $liked_products_id)->decrement('products_liked');
+               // DB::table('products')->where('products_id', '=', $liked_products_id)->decrement('products_liked');
                 $products = DB::table('products')->where('products_id', '=', $liked_products_id)->get();
 
                 $responseData = array('success' => '1', 'message' => Lang::get("website.Product is disliked"), 'total_likes' => $products[0]->products_liked, 'id' => 'like_count_' . $liked_products_id, 'total_wishlist' => $total_wishlist);
@@ -397,6 +398,10 @@ class Customer extends Model
                         ->leftjoin('products', 'products.products_id', '=', 'liked_products.liked_products_id')
                         ->where('products_status', '1')
                         ->where('liked_customers_id', '=', session('customers_id'))->count();
+				$total_like = DB::table('products')->where('products_id', '=', $liked_products_id)->get()->first();
+				$update_like = $total_like->products_like+1;
+				//dd($update_like);
+				DB::table('products')->where('products.products_id', '=', $liked_products_id)->update(['products_like' => $update_like ]);
                 }
                 $products = DB::table('products')->where('products_id', '=', $liked_products_id)->get();
 

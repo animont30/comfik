@@ -780,10 +780,10 @@
                                     </div>
                                     <!-- ORDER QUANTITY -->
                                     <div class="quantity_wrapper">
-                                        <div class="qty-input">
-                                            <button class="qty-count qty-count--minus" data-action="minus" type="button">-</button>
+                                        <div class="qty-input item-quantity">
+                                            <button class="qty-count qty-count--minus " data-action="minus" type="button">-</button>
                                             {{-- <input type="text" id="quantity1" name="quantity" class="form-control quantity-minus1 btn qtyminus" value="10">--}}
-                                            <input type="text" readonly name="quantity" class="product-qty form-control qty" value="@if(!empty($result['cart'])) {{$result['cart'][0]->customers_basket_quantity}} @else @if($result['detail']['product_data'][0]->products_min_order>0 and $result['detail']['product_data'][0]->defaultStock > $result['detail']['product_data'][0]->products_min_order) {{$result['detail']['product_data'][0]->products_min_order}} @else 1 @endif @endif" min="{{$result['detail']['product_data'][0]->products_min_order}}" max="{{$result['detail']['product_data'][0]->products_max_stock}}">
+                                            <input type="text" readonly name="quantity"  class="product-qty form-control qty" value="@if(!empty($result['cart'])) {{$result['cart'][0]->customers_basket_quantity}} @else @if($result['detail']['product_data'][0]->products_min_order>0 and $result['detail']['product_data'][0]->defaultStock > $result['detail']['product_data'][0]->products_min_order) {{$result['detail']['product_data'][0]->products_min_order}} @else 1 @endif @endif" min="{{$result['detail']['product_data'][0]->products_min_order}}" max="{{$result['detail']['product_data'][0]->products_max_stock}}">
                                             <button class="qty-count qty-count--add quantity-plus1 btn qtyplus" data-action="add" type="button">+</button>
                                         </div>
                                     </div>
@@ -796,18 +796,18 @@
                                               @if($result['detail']['product_data'][0]->defaultStock <= 0)
                                                 <button class="btn btn-lg swipe-to-top  btn-danger " type="button">@lang('website.Out of Stock')</button>
                                               @else
-                                                  <button class="btn btn-secondary btn-lg swipe-to-top add-to-Cart"  type="button" products_id="{{$result['detail']['product_data'][0]->products_id}}">@lang('website.Order Now')</button>
+                                                  <button class="btn btn-secondary btn-lg swipe-to-top cart"  type="button" products_id="{{$result['detail']['product_data'][0]->products_id}}">@lang('website.Order Now')</button>
                                               @endif
                                           @else
-                                          <button class="btn btn-secondary btn-lg swipe-to-top add-to-Cart"  type="button" products_id="{{$result['detail']['product_data'][0]->products_id}}">@lang('website.Order Now')</button>
+                                          <button class="btn btn-secondary btn-lg swipe-to-top cart"  type="button" products_id="{{$result['detail']['product_data'][0]->products_id}}">@lang('website.Order Now')</button>
                                           @endif
 
                                         @else
                                               @if($result['commonContent']['settings']['Inventory'])
-                                              <button class="btn btn-secondary btn-lg swipe-to-top  add-to-Cart stock-cart" hidden type="button" products_id="{{$result['detail']['product_data'][0]->products_id}}">@lang('website.Order Now')</button>
+                                              <button class="btn btn-secondary btn-lg swipe-to-top  cart stock-cart" hidden type="button" products_id="{{$result['detail']['product_data'][0]->products_id}}">@lang('website.Order Now')</button>
                                               <button class="btn btn-danger btn btn-lg swipe-to-top  stock-out-cart" hidden type="button">@lang('website.Out of Stock')</button>
                                               @else
-                                              <button class="btn btn-secondary btn-lg swipe-to-top  add-to-Cart"  type="button" products_id="{{$result['detail']['product_data'][0]->products_id}}">@lang('website.Order Now')</button>
+                                              <button class="btn btn-secondary btn-lg swipe-to-top  cart"  type="button" products_id="{{$result['detail']['product_data'][0]->products_id}}">@lang('website.Order Now')</button>
                                               @endif
                                         @endif
                                       @endif

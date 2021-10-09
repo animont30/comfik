@@ -486,8 +486,9 @@ public function insert($request){
             ->leftJoin('manufacturers_info', 'manufacturers.manufacturers_id', '=', 'manufacturers_info.manufacturers_id')
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
 			->leftJoin('users', 'users.id', '=', 'products.products_author')
+			->leftJoin('liked_products', 'liked_products.liked_products_id', '=', 'products.products_id')
             ->LeftJoin('image_categories', 'products.products_image', '=', 'image_categories.image_id');
-
+			
         if (!empty($data['categories_id'])) {
             $categories->LeftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id')
                 ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id')
@@ -509,16 +510,16 @@ public function insert($request){
                 ->select('products.*', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url');
                 $categories->LeftJoin('specials', function ($join) use ($currentDate) {
                     $join->on('specials.products_id', '=', 'products.products_id')->where('specials.status', '=', '1')->where('expires_date', '>', $currentDate);
-                })->select('products.*','users.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
+                })->select('products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
         }
         //parameter special
         elseif ($type == "special") {
             $categories->LeftJoin('specials', 'specials.products_id', '=', 'products.products_id')
-                ->select('products.*','users.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price', 'specials.specials_new_products_price as discount_price');
+                ->select('products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price', 'specials.specials_new_products_price as discount_price');
         } elseif ($type == "flashsale") {
             //flash sale
             $categories->LeftJoin('flash_sale', 'flash_sale.products_id', '=', 'products.products_id')
-                ->select(DB::raw(time() . ' as server_time'), 'products.*','users.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'flash_sale.flash_start_date', 'flash_sale.flash_expires_date', 'flash_sale.flash_sale_products_price as flash_price');
+                ->select(DB::raw(time() . ' as server_time'), 'products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'flash_sale.flash_start_date', 'flash_sale.flash_expires_date', 'flash_sale.flash_sale_products_price as flash_price');
 
         } elseif ($type == "compare") {
             //flash sale
@@ -526,12 +527,12 @@ public function insert($request){
                 ->select(DB::raw(time() . ' as server_time'), 'products.*', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'flash_sale.flash_start_date', 'flash_sale.flash_expires_date', 'flash_sale.flash_sale_products_price as discount_price');
                 $categories->LeftJoin('specials', function ($join) use ($currentDate) {
                     $join->on('specials.products_id', '=', 'products.products_id')->where('specials.status', '=', '1')->where('expires_date', '>', $currentDate);
-                })->select('products.*','users.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
+                })->select('products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
 
         } else {
             $categories->LeftJoin('specials', function ($join) use ($currentDate) {
                 $join->on('specials.products_id', '=', 'products.products_id')->where('specials.status', '=', '1')->where('expires_date', '>', $currentDate);
-            })->select('products.*','users.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
+            })->select('products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
         }
 
         if ($type == "special") { //deals special products

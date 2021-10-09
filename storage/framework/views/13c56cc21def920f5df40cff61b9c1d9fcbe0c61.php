@@ -89,11 +89,11 @@
                                             <?php  $resultsProduct = $results['products']->unique('products_id')->keyBy('products_id');  ?>
                                             <?php $__currentLoopData = $resultsProduct; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
-												<?php
 												
-												?>
                                                     <td><?php echo e($product->products_id); ?></td>
-                                                    <td><img src="<?php echo e(asset($product->path)); ?>" alt="" height="50px"></td>
+                                                    <td><?php if(!empty($product->path)): ?><img src="<?php echo e(asset($product->path)); ?>" alt="" height="50px">
+													<?php else: ?> <img src="<?php echo e(asset('/product_img/product_'.$product->products_id.'/'.$product->products_image ?? '')); ?>" alt="" eight="50px"/> 
+													<?php endif; ?></td>
                                                     <td>
                                                         <?php echo e($product->categories_name); ?>
 

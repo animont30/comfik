@@ -72,6 +72,7 @@
                                     <thead>
                                         <tr>
                                             <th>@sortablelink('id', trans('labels.ID') )</th>
+											<th>user type</th>
                                             <th style="display: none">{{ trans('labels.Picture') }}</th>
                                             <th>@sortablelink('first_name', trans('labels.Full Name')) </th>
                                             <th>@sortablelink('email', trans('labels.Email')) </th>
@@ -81,10 +82,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+									
                                         @if (isset($customers['result']))
                                         @foreach ($customers['result'] as $key=>$listingCustomers)
                                         <tr>
                                             <td>{{ $listingCustomers->id }}</td>
+											<td>  @if ($listingCustomers->role_id == 2)
+												Customers
+											@else
+												Home Chef 
+											@endif
+											</td>
                                             <td>{{ $listingCustomers->first_name }} {{ $listingCustomers->last_name }}</td>
                                             <td style="text-transform: lowercase">{{ $listingCustomers->email }}</td>
                                             <td>                                               

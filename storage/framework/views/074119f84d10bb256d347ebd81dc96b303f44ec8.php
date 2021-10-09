@@ -72,6 +72,7 @@
                                     <thead>
                                         <tr>
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('id', trans('labels.ID')));?></th>
+											<th>user type</th>
                                             <th style="display: none"><?php echo e(trans('labels.Picture')); ?></th>
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('first_name', trans('labels.Full Name')));?> </th>
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('email', trans('labels.Email')));?> </th>
@@ -81,10 +82,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+									
                                         <?php if(isset($customers['result'])): ?>
                                         <?php $__currentLoopData = $customers['result']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$listingCustomers): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
                                             <td><?php echo e($listingCustomers->id); ?></td>
+											<td>  <?php if($listingCustomers->role_id == 2): ?>
+												Customers
+											<?php else: ?>
+												Home Chef 
+											<?php endif; ?>
+											</td>
                                             <td><?php echo e($listingCustomers->first_name); ?> <?php echo e($listingCustomers->last_name); ?></td>
                                             <td style="text-transform: lowercase"><?php echo e($listingCustomers->email); ?></td>
                                             <td>                                               

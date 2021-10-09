@@ -185,17 +185,18 @@
 												  <li class="item">
 													<!-- <a href="#" title="Order this item">Order this item</a>   -->
                           <?php if($products->products_type==0): ?>
+							  <input type="hidden"  class=" qty" value="1" >
                               <?php if($result['commonContent']['settings']['Inventory']): ?>
                                   <?php if($products->defaultStock<=0): ?>
                                   <button type="button" products_id="<?php echo e($products->products_id); ?>" data-toggle="tooltip" data-placement="bottom" title="Out of Stock">Out this item</button>
                                   <?php else: ?>
-                                  <button type="button" products_id="<?php echo e($products->products_id); ?>" data-toggle="tooltip" data-placement="bottom" title="Order this item">Order this item</button>
+                                  <button type="button" class="add-to-Cart cart" products_id="<?php echo e($products->products_id); ?>"  data-toggle="tooltip" data-placement="bottom" title="Order this item">Order this item</button>
                                   <?php endif; ?>
                               <?php else: ?>
-                              <button type="button" products_id="<?php echo e($products->products_id); ?>" data-toggle="tooltip" data-placement="bottom" title="Order this item">Order this item</button>
+                              <button type="button" class="add-to-Cart cart" products_id="<?php echo e($products->products_id); ?>" data-toggle="tooltip" data-placement="bottom" title="Order this item">Order this item</button>
                               <?php endif; ?>
                             <?php else: ?>
-                            <button type="button" products_id="<?php echo e($products->products_id); ?>" data-toggle="tooltip" data-placement="bottom" title="Order this item">View this item</button>
+                            <button type="button" class="add-to-Cart cart" products_id="<?php echo e($products->products_id); ?>" data-toggle="tooltip" data-placement="bottom" title="Order this item">View this item</button>
                             <?php endif; ?>
                                     
 													</li>
@@ -235,7 +236,8 @@
 												<div class="social-item text-center">
 													<a href="javascript:void(0);" class="is_liked" products_id="<?php echo e($products->products_id); ?>" title="Like">
 													<img src="<?php echo e(asset('./images/media/2021/08/heart-red.png')); ?>" alt="Likes icon">
-													<sapn class="d-block count-num"><?php echo e($products->products_liked); ?></sapn>
+													
+													<sapn class="d-block count-num"><?php echo e($products->products_like); ?></sapn>
 												</a>
 												</div>
 												<div class="social-item text-center">

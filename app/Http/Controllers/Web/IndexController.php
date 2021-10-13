@@ -80,6 +80,7 @@ class IndexController extends Controller
         $data = array('page_number' => '0', 'type' => '', 'limit' => 10, 'min_price' => $min_price, 'max_price' => $max_price);
         $newest_products = $this->products->products($data);
         $result['products'] = $newest_products;
+		
         /*********************************************************************/
         /**                     Compare Counts                              **/
         /*********************************************************************/
@@ -92,12 +93,14 @@ class IndexController extends Controller
 /***************************************************************/
         $cart = '';
         $result['cartArray'] = $this->products->cartIdArray($cart);
+		
 /**************************************************************/
 
 //special products
         $data = array('page_number' => '0', 'type' => 'special', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
         $special_products = $this->products->products($data);
         $result['special'] = $special_products;
+		
 //Flash sale
 
         $data = array('page_number' => '0', 'type' => 'flashsale', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
@@ -156,7 +159,7 @@ class IndexController extends Controller
         }
 
         $result['weeklySoldProducts'] = array('success' => '1', 'product_data' => $detail, 'message' => "Returned all products.", 'total_record' => count($detail));
-        
+
         session(['paymentResponseData' => '']); 
             
         session(['paymentResponse'=>'']);
@@ -212,7 +215,7 @@ class IndexController extends Controller
 			  $result['authors'][$id]->totalordered+=$prod->products_ordered;
 		  }
 		  }
-		 // dd($result);
+		
         return view("web.index", ['title' => $title, 'final_theme' => $final_theme])->with(['result' => $result]);
     }
 

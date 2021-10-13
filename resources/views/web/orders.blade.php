@@ -25,26 +25,41 @@
 				
                         <div class="col-lg-6 px-4">
                             <div class="pst_order_wrap d-flex my-4 align-items-stretch bg-white p-4">
+                          
                                 <div class="order-img">
+                               
+                                   <a href="{{ URL::to('/product-detail/'.$orders->products[0]->products_slug)}}" class="wrap_img_art" title="">
+                                    @if(!empty($orders->products[0]->image))
                                     <img src="{{asset($orders->products[0]->image)}}" alt="order img">
+                                    @else
+                                   <img src="{{asset('/product_img/product_'.$orders->products[0]->products_id.'/'.$orders->products[0]->products_image ?? '')}}" alt="{{$products->products_name}}" /> 
+                                @endif
+                                </a>
+                                   
                                 </div>
+                                
                                 <div class="order_content pl-5 pt-md-4">
                                     <h3>
-									{{$orders->products[0]->products_name}}
+									<a href="{{ URL::to('/product-detail/'.$orders->products[0]->products_slug)}}" title="">{{$orders->products[0]->products_name}} </a>
                                     </h3>
                                     <small></small>
                                     <div class="order_price d-flex flex-wrap justify-content-between align-items-center">
                                         <h4>@if($orders->currency == '$')
-                                            {{ $orders->currency }} {{ $orders->order_price  }} 
+                                            {{ $orders->currency }} {{ $orders->products[0]->products_price  }} 
                                             @else
-                                            {{ $orders->currency }}{{ $orders->order_price * $orders->currency_value }} 
+                                            {{ $orders->currency }}{{ $orders->products[0]->products_price * $orders->currency_value }} 
                                             @endif</h4>
                                         <!-- <button class="btn">Repeat this order</button> -->
                                         <a class="btn" href="{{ URL::to('/repeatorder?products_id='.$orders->products[0]->products_id)}}">Repeat this order</a>
+                                        
+                                        <a href="{{url('/view-order/'.$orders->products[0]->products_id)}}" class="btn-link d-block w-100 text-left mt-4"><b>@lang('website.Order Detail')</b></a>
                                     </div>
+
+                                    <span>Order Status: {{$orders->orders_status}}</span>
                                     <div class="order_delivery_info">
-                                        <span>Order Quantity: 4, </span>
+                                        <span>Order Quantity: {{$orders->products[0]->products_quantity}} </span>
                                         <span>Ordered Date: {{ date('d/m/Y', strtotime($orders->date_purchased))}} </span>
+                                        
                                     </div>
                                 </div>
                             </div>

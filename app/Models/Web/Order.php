@@ -613,7 +613,7 @@ class Order extends Model
 
         //orders
         if (Session::get('guest_checkout') == 1) {
-            $orders = DB::table('orders')->orderBy('date_purchased', 'DESC')->where('customers_id', '=', Session::get('customers_id'))->get();
+            $orders    = DB::table('orders')->orderBy('date_purchased', 'DESC')->where('customers_id', '=', Session::get('customers_id'))->get();
         } else {
             $orders = DB::table('orders')->orderBy('date_purchased', 'DESC')->where('customers_id', '=', auth()->guard('customer')->user()->id)->get();
         }
@@ -640,7 +640,7 @@ class Order extends Model
 			$order_products = DB::table('orders_products')
 				->join('products', 'products.products_id', '=', 'orders_products.products_id')
 				->join('image_categories', 'products.products_image', '=', 'image_categories.image_id')
-				->select('image_categories.path as image', 'products.products_model as model', 'orders_products.*')
+				->select('image_categories.path as image', 'products.products_model as model', 'products.*', 'orders_products.*')
 				->where('orders_products.orders_id', $orders_data->orders_id)->groupBy('products.products_id')->get();
 
 			foreach ($order_products as $products) {
@@ -659,8 +659,9 @@ class Order extends Model
             $index++;
         }
 
-
+       
         $result['orders'] = $orders;
+       
         return $result;
     }
 

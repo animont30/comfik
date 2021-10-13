@@ -24,27 +24,41 @@
 				
                         <div class="col-lg-6 px-4">
                             <div class="pst_order_wrap d-flex my-4 align-items-stretch bg-white p-4">
+                          
                                 <div class="order-img">
+                               
+                                   <a href="<?php echo e(URL::to('/product-detail/'.$orders->products[0]->products_slug)); ?>" class="wrap_img_art" title="">
+                                    <?php if(!empty($orders->products[0]->image)): ?>
                                     <img src="<?php echo e(asset($orders->products[0]->image)); ?>" alt="order img">
+                                    <?php else: ?>
+                                   <img src="<?php echo e(asset('/product_img/product_'.$orders->products[0]->products_id.'/'.$orders->products[0]->products_image ?? '')); ?>" alt="<?php echo e($products->products_name); ?>" /> 
+                                <?php endif; ?>
+                                </a>
+                                   
                                 </div>
+                                
                                 <div class="order_content pl-5 pt-md-4">
                                     <h3>
-									<?php echo e($orders->products[0]->products_name); ?>
-
+									<a href="<?php echo e(URL::to('/product-detail/'.$orders->products[0]->products_slug)); ?>" title=""><?php echo e($orders->products[0]->products_name); ?> </a>
                                     </h3>
                                     <small></small>
                                     <div class="order_price d-flex flex-wrap justify-content-between align-items-center">
                                         <h4><?php if($orders->currency == '$'): ?>
-                                            <?php echo e($orders->currency); ?> <?php echo e($orders->order_price); ?> 
+                                            <?php echo e($orders->currency); ?> <?php echo e($orders->products[0]->products_price); ?> 
                                             <?php else: ?>
-                                            <?php echo e($orders->currency); ?><?php echo e($orders->order_price * $orders->currency_value); ?> 
+                                            <?php echo e($orders->currency); ?><?php echo e($orders->products[0]->products_price * $orders->currency_value); ?> 
                                             <?php endif; ?></h4>
                                         <!-- <button class="btn">Repeat this order</button> -->
                                         <a class="btn" href="<?php echo e(URL::to('/repeatorder?products_id='.$orders->products[0]->products_id)); ?>">Repeat this order</a>
+                                        
+                                        <a href="<?php echo e(url('/view-order/'.$orders->products[0]->products_id)); ?>" class="btn-link d-block w-100 text-left mt-4"><b><?php echo app('translator')->get('website.Order Detail'); ?></b></a>
                                     </div>
+
+                                    <span>Order Status: <?php echo e($orders->orders_status); ?></span>
                                     <div class="order_delivery_info">
-                                        <span>Order Quantity: 4, </span>
+                                        <span>Order Quantity: <?php echo e($orders->products[0]->products_quantity); ?> </span>
                                         <span>Ordered Date: <?php echo e(date('d/m/Y', strtotime($orders->date_purchased))); ?> </span>
+                                        
                                     </div>
                                 </div>
                             </div>

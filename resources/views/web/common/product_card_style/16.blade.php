@@ -1,3 +1,4 @@
+
 <!--<div class="product product11">
   <article>
     <div class="thumb">
@@ -71,7 +72,7 @@
             $cat_name = $category->categories_name;
         }              
                
-        echo $cat_name;*/
+        */
        ?>                                 
       </span>
       <h5 class="title"><a href="{{ URL::to('/product-detail/'.$products->products_slug)}}">{{$products->products_name}}</a></h5>
@@ -248,12 +249,12 @@
 													<sapn class="d-block count-num">{{$products->products_viewed}}</sapn>
 												</a>
 												</div>
-												<div class="social-item text-center">
+												<!-- <div class="social-item text-center">
 													<a href="javascript:void(0);" title="Forward">
 													<img src="{{asset('./images/media/2021/08/forward.png')}}" alt="Forward icon">
 													<sapn class="d-block count-num">{{$products->products_ordered}}</sapn>
 												</a>
-												</div>
+												</div> -->
 											</div>
 										</div>
 									</div>

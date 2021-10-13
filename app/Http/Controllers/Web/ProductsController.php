@@ -19,7 +19,6 @@ use Illuminate\Routing\Controller;
 use Lang;
 use Session;
 //email
-
 class ProductsController extends Controller
 {
     public function __construct(
@@ -219,7 +218,7 @@ class ProductsController extends Controller
 
         $result['min_price'] = $min_price;
         $result['max_price'] = $max_price;
-
+		
         return view("web.shop", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
 
     }

@@ -506,8 +506,8 @@ public function insert($request){
         }
         //wishlist customer id
         if ($type == "wishlist") {
-            $categories->LeftJoin('liked_products', 'liked_products.liked_products_id', '=', 'products.products_id')
-                ->select('products.*', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url');
+           // $categories->LeftJoin('liked_products', 'liked_products.liked_products_id', '=', 'products.products_id')
+                $categories->select('products.*', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url');
                 $categories->LeftJoin('specials', function ($join) use ($currentDate) {
                     $join->on('specials.products_id', '=', 'products.products_id')->where('specials.status', '=', '1')->where('expires_date', '>', $currentDate);
                 })->select('products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
@@ -1055,7 +1055,7 @@ if(!empty($default_images)){
         } else {
             $responseData = array('success' => '0', 'product_data' => $result, 'message' => Lang::get('website.Empty record'), 'total_record' => count($total_record));
         }
-
+//dd($responseData);
         return ($responseData);
     }
 

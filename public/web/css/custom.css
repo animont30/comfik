@@ -594,14 +594,15 @@ header {
 
 .header-main-menu .navbar-nav a.nav-item ,
 .header-main-menu .navbar-nav a.main-manu{
-    font-size: 1.6rem;
-    font-weight: 700;
-    padding: 8px 2px;
-    color: #444;
-    letter-spacing: 0.8px;
-    line-height: 2.9rem;
-    position: relative;
-    margin: 8px 15px;
+    font-size: 1.5rem;
+font-weight: 700;
+padding: 8px 2px;
+color: #444;
+letter-spacing: 0.8px;
+line-height: 1.6rem;
+position: relative;
+margin: 8px 6px;
+text-align: center;
 }
 
 .header-main-menu .navbar-nav a.nav-item:hover,
@@ -768,8 +769,8 @@ li.profile_dropdown ul.Prof-dropdown-menu::before,
 }
 
 .topbar-menu a.top_links.header_avatar img {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 100%;
     border: 2px solid #f2f2f2;
     object-fit:cover;
@@ -1484,6 +1485,7 @@ a.top_links.header_avatar:hover span {
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     break-inside: avoid-column;
+    display:grid;
 }
 
 .article_wrapper.pluto-post-box:hover,
@@ -1626,6 +1628,7 @@ article.pluto-post-box .post-body .post-top-share .os_social-head-w {
 
 .pluto-post-box .post-body .post-top-share .os_social a img {
     width: 15px;
+    height:15px;
 }
 
 .pluto-post-box .post-body .post-top-share .os_social a {
@@ -1745,7 +1748,7 @@ article.pluto-post-box .post-content p {
 
 .author-contain .author-social-wrap {
     flex: 2;
-    max-width: 48%;
+    max-width: 38%;
     padding-right: 10px;
 }
 
@@ -1754,7 +1757,7 @@ article.pluto-post-box .post-content p {
 }
 
 .author-contain .author-social-wrap sapn.count-num {
-    font-size: 10px;
+    font-size: 9px;
     margin-top: 2px;
     font-weight: 600;
     color: #333;
@@ -1792,7 +1795,18 @@ article .post-body .author-contain {
     transition: 0.3s;
     display: block;
 }
-
+.author-social-wrap.author-selfIn-list .action_btn a.btn {
+    padding: 5px 8px;
+    text-transform: capitalize;
+    font-weight: normal;
+    font-size: 10px;
+    color: #fff;
+    line-height: 17px;
+    border: 0px !important;
+}
+.author-social-wrap.author-selfIn-list .action_btn {
+    flex: 1;
+}
 .author-contain .author-social-wrap .social-item a:hover {
     transform: scale(1.1);
 }
@@ -2265,7 +2279,7 @@ input.form-control,
 select.form-control,
 .input-group .form-control {
     height: 45px;
-    border-radius: 5px;
+    border-radius: 5px !important;
     background-color: #ebebeb;
     font-size: 16px;
     border: 0px;
@@ -2314,6 +2328,7 @@ textarea {
     background-color: #ebebeb;
     font-size: 16px;
     border: 0px;
+    padding:10px 15px;
 }
 
 .upload_recipe_Wrapper label,
@@ -3296,7 +3311,7 @@ form.filterForm_Wrapper .form-group>label {
 }
 .contain_ratting fieldset.disabled-ratings {
     border: 0px;
-    padding: 0px 10px;
+    padding: 0px 5px;
 }
 .about_Herobanner {
     margin-bottom: 70px;
@@ -3352,6 +3367,28 @@ form.filterForm_Wrapper .form-group>label {
 .user-slider-wrapper.fav_homeChef {
     height: 150px;
 }
+.upload_recipe_Wrapper .custom-radio label {
+    padding-left: 12px !important;
+    line-height: 24px;
+}
+.upload_recipe_Wrapper .custom-radio .custom-control-input:checked ~ label.custom-control-label::before {
+    background: #0c91c1 !important;
+}
+.pro-content {
+    overflow: hidden;
+    padding-top: 50px;
+}
+.registration-process {
+    border-radius: .8rem;
+    background-color: #ffffffb5;
+}
+section.login_contain {
+    background-image: linear-gradient(#00000045,#00000029),url(../images/login-darkbg.jpg);
+    background-size: cover;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
 /* responsive */
 @media (min-width: 1200px) {
     .product-list-wrapper .main_content_wrap {
@@ -3459,7 +3496,7 @@ form.filterForm_Wrapper .form-group>label {
     }
 }
 
-@media (min-width:768px) and (max-width:992px) {
+@media (min-width:768px) and (max-width:991px) {
     .single-recipe-detail .contain_ratting {
         left: -55px;
         bottom: 5px;
@@ -3473,6 +3510,7 @@ form.filterForm_Wrapper .form-group>label {
     .form-search-header input.form-control{
         width:18rem;
     }
+    
 }
 /*Aabha Product Detail*/
 .single-recipe-detail h2{font-size: 2.0rem; }
@@ -3480,14 +3518,14 @@ form.filterForm_Wrapper .form-group>label {
 
 /*Aabha Product Detail End*/
 /* RESPONSIVE */
-@media (min-width:992px) {
+@media (min-width:991px) {
     .header-main-menu .navbar-nav a.nav-item {
         text-align: center;
     }
-
+    section.login_contain{min-height: calc(100vh - 212px) !important;}
     .navbar-expand-lg .navbar-nav {
         width: 100%;
-        justify-content: center;
+        justify-content: space-between;
     }
 
     .pst_order_wrap .order_delivery_info {

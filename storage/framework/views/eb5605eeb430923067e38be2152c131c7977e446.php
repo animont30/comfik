@@ -36,7 +36,7 @@
 					<div class=" d-none d-lg-block">
 					<ul class="d-flex align-items-center list-unstyled">
 						<li><a href="<?php echo e(url('/page?name=about-us')); ?>" class="top_links" title="About us">About Us</a></li>
-						<li><a href="#" class="top_links" title="Home Chef">Home Chef</a></li>
+						<li><a href="<?php echo e(url('/page?name=home-chef')); ?>" class="top_links" title="Home Chef">Home Chef</a></li>
 					</ul>
 					</div>
 					<ul class="d-flex align-items-center list-unstyled">
@@ -49,7 +49,7 @@
 							<?php if(auth()->guard('customer')->user()->avatar!=''): ?>
 								<img src="<?php echo e(asset(auth()->guard('customer')->user()->avatar)); ?>"  />
 							<?php else: ?>
-								<img src="<?php echo e(asset('./images/media/2021/08/user-3.jpg')); ?>" alt="User image">
+								<img src="<?php echo e(asset('./images/media/2021/08/user-icon.png')); ?>" alt="User image">
 									<?php endif; ?>
 							
 							<span class="pl-3 d-none d-md-block">
@@ -206,8 +206,8 @@
 		 </div>
 					<div class="topbar-menu d-block d-lg-none my-3 py-3 border-bottom border-top ">
 						<ul class="d-flex list-unstyled">
-							<li><a href="#" class="top_links d-block pb-2" title="About us">About Us</a></li>
-							<li><a href="#" class="top_links d-block pb-2">Home Chef</a></li>
+							<li><a href="<?php echo e(url('/page?name=about-us')); ?>" class="top_links d-block pb-2" title="About us">About Us</a></li>
+							<li><a href="<?php echo e(url('/page?name=home-chef')); ?>" class="top_links d-block pb-2">Home Chef</a></li>
 						</ul>
 					</div>
 				</div>

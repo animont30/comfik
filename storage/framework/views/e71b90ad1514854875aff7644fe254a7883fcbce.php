@@ -1,3 +1,5 @@
+
+
 <?php $qunatity=0; ?>
 <?php $__currentLoopData = $result['commonContent']['cart']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cart_data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
     <?php $qunatity += $cart_data->customers_basket_quantity; ?>

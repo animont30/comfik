@@ -377,9 +377,7 @@
                               <div class="products-area">
                                   <div class="row">  
                                     <?php if($result['categories_status'] == 1): ?>
-									<?php
-								dd($result['products']);
-								?>
+									
                                       <?php $__currentLoopData = $result['products']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$products): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>    
 	
                                       <?php 

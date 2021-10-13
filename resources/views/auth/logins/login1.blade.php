@@ -1,4 +1,9 @@
 <!-- login Content -->
+<style>
+	footer.footer-comfik{
+		margin-top:0px !important;
+	}
+	</style>
 <div class="container-fuild">
 	<nav aria-label="breadcrumb">
 		<div class="container">
@@ -11,12 +16,12 @@
 	  </nav>
   </div> 
 
-<section class="page-area pro-content">
-	<div class="container">
+<section class="page-area pro-content login_contain pt-4 pb-5">
+	<div class="container pb-4 mt-2">
 
 
 			<div class="row">
-				<div class="col-12 col-sm-12 col-md-6">
+				<div class="col-12 col-sm-12 col-md-6 mx-auto">
 					@if(Session::has('loginError'))
 							<div class="alert alert-danger alert-dismissible fade show" role="alert">
 									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -39,8 +44,8 @@
 									</button>
 							</div>
 					@endif
-					<div class="col-12"><h4 class="heading login-heading">@lang('website.LOGIN')</h4></div>
-					<div class="registration-process">
+					<div class="col-12"><h3 class="heading login-heading text-center text-white">@lang('website.LOGIN')</h3></div>
+					<div class="registration-process px-4 py-5 mt-2">
 
 						<form  enctype="multipart/form-data"  class="form-validate-login" action="{{ URL::to('/process-login')}}" method="post">
 							{{csrf_field()}}
@@ -48,7 +53,7 @@
 									<div class="col-12"> <label for="inlineFormInputGroup">@lang('website.Email')</label></div>
 									<div class="input-group col-12">
 										<input type="email" name="email" id="email" placeholder="@lang('website.Please enter your valid email address')"class="form-control email-validate-login">
-										<span class="form-text text-muted error-content" hidden>@lang('website.Please enter your valid email address')</span>
+										<span class="form-text text-muted error-content" hidden>@lang('Please enter your valid email address')</span>
 								 </div>
 								</div>
 								<div class="from-group mb-3">
@@ -73,7 +78,7 @@
 						</form>
 					</div>
 				</div>
-
+<!-- 
 				<div class="col-12 col-sm-12 col-md-6">
 						<div class="col-12"><h4 class="heading login-heading">@lang('website.NEW CUSTOMER')</h4></div>
 						<div class="registration-process">
@@ -164,7 +169,7 @@
 											<div class="from-group mb-3">
 												<div class="col-12"> <label for="inlineFormInputGroup"><strong style="color: red;">*</strong>@lang('website.Phone Number')</label></div>
 												<div class="input-group col-12">
-													<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="@lang('website.Please enter your valid phone number')" value="{{ old('phone') }}" maxlength="10">
+													<input  name="phone" type="text" class="form-control phone-validate" id="phone" placeholder="@lang('website.Please enter your valid phone number')" value="{{ old('phone') }}">
 													<span class="form-text text-muted error-content" hidden>@lang('website.Please enter your valid phone number')</span>
 												</div>
 											</div>
@@ -199,7 +204,7 @@
 									</div>
 							</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 
 	</div>

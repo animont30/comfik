@@ -305,8 +305,8 @@ class OrdersController extends Controller
         $result = array();
         $result['commonContent'] = $this->index->commonContent();
 
-        if (session('step') == '0') {
-            session(['step' => '1']);
+        if (session('step_box') == '0') {
+            session::push('step_box', 1);
         }
 
         foreach ($request->all() as $key => $value) {
@@ -349,8 +349,8 @@ class OrdersController extends Controller
     //checkout_billing_address
     public function checkout_billing_address(Request $request)
     {
-        if (session('step') == '1') {
-            session(['step' => '2']);
+        if (session('step_box') == '1') {
+            session(['step_box' => '2']);
         }
 
         if (empty($request->same_billing_address)) {
@@ -376,8 +376,8 @@ class OrdersController extends Controller
     public function checkout_payment_method(Request $request)
     {
 
-        if (session('step') == '2') {
-            session(['step' => '3']);
+        if (session('step_box') == '2') {
+            session(['step_box' => '3']);
         }
         $result['commonContent'] = $this->index->commonContent();
 

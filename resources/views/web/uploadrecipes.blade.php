@@ -13,7 +13,7 @@
                                     
                                     <div class="upload-main-wrapper">
                                         <div class="upload-wrapper">
-                                            <input type="file" id="upload-file" name="file[]" multiple>
+                                            <input type="file" id="upload-file" name="file[]" multiple required>
                                             <span class="file-upload-text">Upload your recipe potographs here</span>
                                             <div class="file-success-text"> <span>Successfully Uploaded</span></div>
                                         </div>
@@ -29,7 +29,7 @@
                                 <!-- upload recipe form -->
                                 <div class="form-group">
                                     <label for="select-category">Food Type</label>
-                                    <select class="form-control" id="select-category" name="food_type">
+                                    <select class="form-control" id="select-category" name="food_type" required>
                                         <option selected value="">-- Select Category --</option>
                                         @foreach($result['manufacturers'] as $m)
 										<option  value="{{$m->manufacturers_id}}">{{$m->manufacturer_name}}</option>
@@ -38,13 +38,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="niche-title">Provide a nice title for your recipe</label>
-                                    <input type="text" class="form-control" id="products_name" name="products_name">
+                                    <input type="text" class="form-control" id="products_name" name="products_name" required>
                                 </div>
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 pr-lg-4">
                                         <label for="servingFor">Serving For</label>
-                                        <select class="form-control" id="select-category" name="serving_for">
+                                        <select class="form-control" id="select-category" name="serving_for" required>
                                             <option selected value="">-- Select Serving --</option>
                                            @foreach($result['categories'] as $m)
 												<option  value="{{$m->categories_id}}">{{$m->categories_name}}</option>
@@ -53,11 +53,11 @@
                                     </div>
 									<div class="form-group col-md-3 mb-3 pl-lg-2">
                                         <label for="products_weight">Recipes Weight</label>
-                                        <input type="text" class="form-control" id="products_weight" name="products_weight">
+                                        <input type="text" class="form-control" id="products_weight" name="products_weight" required>
                                     </div>
                                     <div class="form-group col-md-3 mb-3 pl-lg-2">
                                         <label for="Unit"> .</label>
-                                        <select class="form-control" id="products_weight_unit" name="products_weight_unit">
+                                        <select class="form-control" id="products_weight_unit" name="products_weight_unit" required>
                                             <option selected value="">-- Select Unit --</option>
                                             <option value="gm"> Gm</option>
                                             <option value="kg">Kg</option>
@@ -104,14 +104,14 @@
                                     </div>-->
                                     <div class="form-group col-md-12">
                                         <label for="inputEmail4">Description</label>
-                                        <textarea name="description" id="" class="form-control" cols="100%" rows="10"></textarea>
+                                        <textarea name="description" id="" class="form-control" cols="100%" rows="10" required></textarea>
                                     </div>
                                 </div>
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="videourl">Video URL</label>
-                                        <input type="url" class="form-control" name="videourl" id="videourl">
+                                        <input type="url" class="form-control" name="videourl" id="videourl" required>
                                     </div>
                                 </div>
                                 

@@ -281,8 +281,8 @@
 													@endif
 													>All</option>
 													@foreach($result['categories'] as $cat)
-														<option value="{{$cat->categories_id}}"
-														 @if(app('request')->input('category') == $cat->categories_id)
+														<option value="{{$cat->slug}}"
+														 @if(app('request')->input('category') == $cat->slug)
 															 selected="selected"
 														 @endif
 
@@ -372,14 +372,14 @@
                           </div>
                         </section>
 
-
                         <section id="swap" class="shop-content mt-2" >
                               <div class="products-area">
                                   <div class="row">  
-                                    @if($result['categories_status'] == 1)
-									
-                                      @foreach($result['products'] as $key=>$products)    
+                                    @if($result['products']['success'] == 1)
+								
+                                      @foreach($result['products']['product_data'] as $key=>$products)    
 	
+                                      
                                       <?php 
                                        // $is_status = false;
                                         if(!empty($products->categories)){

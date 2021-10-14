@@ -22,8 +22,10 @@ class Order extends Model
     {
 
         $cart = new Cart();
+        
         $result = array();
         $cart_items = $cart->myCart($result);
+       
         $result['cart'] = $cart_items;
         $currency = Session::get('symbol_left') ? Session::get('symbol_left') : Session::get('symbol_right');
         $currency_value = DB::table('currencies')->where('symbol_right', $currency)->orwhere('symbol_left', $currency)->first();

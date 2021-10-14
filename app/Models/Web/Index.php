@@ -306,6 +306,7 @@ class Index extends Model
             ->get();
 
         $result['homepagebanners'] = $homepagebanners;
+      //  print_r( $result);die;
         return $result;
     }
 
@@ -482,7 +483,7 @@ class Index extends Model
                             ->orWhere('image_categories.image_type', '=', 'ACTUAL');
                     });
             })
-            ->select('customers_basket.*', 'products.products_model as model', 'image_categories.path as image', 'image_categories.image_id as products_image',
+            ->select('products.products_image as products_images','customers_basket.*', 'products.products_model as model', 'image_categories.path as image', 'image_categories.image_id as products_image',
                 'products_description.products_name as products_name', 'products.products_quantity as quantity',
                 'products.products_price as price', 'products.products_weight as weight',
                 'products.products_weight_unit as unit')->where('customers_basket.is_order', '=', '0')->where('products_description.language_id', '=', Session::get('language_id'));
@@ -497,7 +498,7 @@ class Index extends Model
         $result = array();
         foreach ($baskit as $baskit_data) {
             //products_image
-			if(!empty($default_images )){
+			if(!empty($baskit_data )){
 				
             $default_images = DB::table('image_categories')
                 ->where('image_id', '=', $baskit_data->products_image)
@@ -519,7 +520,9 @@ class Index extends Model
                         ->where('image_id', '=', $baskit_data->products_image)
                         ->where('image_type', 'ACTUAL')
                         ->first();
-                    $baskit_data->image = $default_images->path;
+
+                       
+                    $baskit_data->image = !empty($default_images->path) ? $default_images->path : "";
                 }
 
             }

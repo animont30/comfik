@@ -19,6 +19,7 @@ use Illuminate\Routing\Controller;
 use Lang;
 use Session;
 //email
+
 class ProductsController extends Controller
 {
     public function __construct(
@@ -106,7 +107,7 @@ class ProductsController extends Controller
         //category
         if (!empty($request->category) and $request->category != 'all') {
             $category = $this->products->getCategories($request);
-           
+       
             if(!empty($category) and count($category)>0){
                 $categories_id = $category[0]->categories_id;
                 //for main
@@ -196,7 +197,8 @@ class ProductsController extends Controller
             'categories_id' => $categories_id, 'search' => $search,
             'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price,'brand' => $brand);
 
-        $products = $this->products->products($data);        
+        $products = $this->products->products($data);       
+        
         $result['products'] = $products;
 
         $data = array('limit' => $limit, 'categories_id' => $categories_id);
@@ -218,7 +220,7 @@ class ProductsController extends Controller
 
         $result['min_price'] = $min_price;
         $result['max_price'] = $max_price;
-		
+//print_r( $result);die;
         return view("web.shop", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
 
     }

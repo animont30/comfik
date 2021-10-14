@@ -435,6 +435,9 @@ public function insert($request){
     //products
     public function products($data)
     {
+        if (!empty($data['categories_id']) && !empty($data['search'])) {
+            $data['search'] = '';
+        }
 
         if (empty($data['page_number']) or $data['page_number'] == 0) {
             $skip = $data['page_number'] . '0';
@@ -488,8 +491,9 @@ public function insert($request){
 			->leftJoin('users', 'users.id', '=', 'products.products_author')
 			->leftJoin('liked_products', 'liked_products.liked_products_id', '=', 'products.products_id')
             ->LeftJoin('image_categories', 'products.products_image', '=', 'image_categories.image_id');
-			
-        if (!empty($data['categories_id'])) {
+		
+        if (!empty($data['categories_id']) || !empty($data['search'])) {
+           
             $categories->LeftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id')
                 ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id')
                 ->LeftJoin('categories_description', 'categories_description.categories_id', '=', 'products_to_categories.categories_id');
@@ -506,17 +510,19 @@ public function insert($request){
         }
         //wishlist customer id
         if ($type == "wishlist") {
-           // $categories->LeftJoin('liked_products', 'liked_products.liked_products_id', '=', 'products.products_id')
-                $categories->select('products.*', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url');
+			
+            // $categories->LeftJoin('liked_products', 'liked_products.liked_products_id', '=', 'products.products_id')
+            $categories->select('products.*', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url');
                 $categories->LeftJoin('specials', function ($join) use ($currentDate) {
                     $join->on('specials.products_id', '=', 'products.products_id')->where('specials.status', '=', '1')->where('expires_date', '>', $currentDate);
-                })->select('products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
+                })->select('products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price')->get();
+				// dd($categories);
         }
         //parameter special
         elseif ($type == "special") {
             $categories->LeftJoin('specials', 'specials.products_id', '=', 'products.products_id')
                 ->select('products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price', 'specials.specials_new_products_price as discount_price');
-        } elseif ($type == "flashsale") {
+        } elseif ($type == "flashsale") {   
             //flash sale
             $categories->LeftJoin('flash_sale', 'flash_sale.products_id', '=', 'products.products_id')
                 ->select(DB::raw(time() . ' as server_time'), 'products.*','users.*','liked_products.*','users.id as user_id', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'flash_sale.flash_start_date', 'flash_sale.flash_expires_date', 'flash_sale.flash_sale_products_price as flash_price');
@@ -583,10 +589,11 @@ public function insert($request){
 
             $searchValue = $data['search'];
             
-            $categories->where('products_options.products_options_name', 'LIKE', '%' . $searchValue . '%')->where('products_status', '=', 1);
+            $categories->where('products_options.products_options_name', 'LIKE', '%' . $searchValue . '%')->orwhere('categories.categories_slug', 'LIKE', '%' . $searchValue . '%')->where('products_status', '=', 1);
 
             if (!empty($data['categories_id'])) {
-                $categories->where('products_to_categories.categories_id', '=', $data['categories_id']);
+                
+                $categories->where('products_to_categories.categories_slug', '=', $data['categories_id']);
             }
 
             if (!empty($data['filters'])) {
@@ -739,8 +746,9 @@ public function insert($request){
                 $query->select('flash_sale.products_id')->from('flash_sale')->where('flash_sale.flash_status', '=', '1');
             });
         }
-
+       
         if (!empty($data['filters'])) {
+            
             $temp_key = 0;
             
             $categories->whereIn('products_attributes.options_id', [$data['filters']['options']])
@@ -770,8 +778,9 @@ public function insert($request){
             $categories->where('categories.categories_status', '=', 1);
             $categories->where('categories_description.language_id', '=', Session::get('language_id'));
         }else{
-            $categories->LeftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id');
-                // ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id');
+            if(empty($data['search'])){
+                $categories->LeftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id');
+            } // ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id');
             $categories->whereIn('products_to_categories.categories_id', function ($query) use ($currentDate) {
                 $query->select('categories_id')->from('categories')->where('categories.categories_status',1);
             });
@@ -1055,7 +1064,7 @@ if(!empty($default_images)){
         } else {
             $responseData = array('success' => '0', 'product_data' => $result, 'message' => Lang::get('website.Empty record'), 'total_record' => count($total_record));
         }
-//dd($responseData);
+
         return ($responseData);
     }
 
@@ -1278,9 +1287,9 @@ if(!empty($default_images)){
         $category = DB::table('categories')
         ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
         //->where('categories.categories_status', 1)
-        ->where('categories.categories_id', $request->category)->where('language_id', Session::get('language_id'))
+        ->where('categories.categories_slug', $request->category)->where('language_id', Session::get('language_id'))
         ->get();
-		
+       
         return $category;
     }
 
@@ -1291,8 +1300,9 @@ if(!empty($default_images)){
         $category = DB::table('categories')
         ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
         //->where('categories.categories_status', 1)
-        ->where('categories_slug', $slug)->where('language_id', Session::get('language_id'))
+        ->where('categories.categories_slug', $slug)->where('language_id', Session::get('language_id'))
         ->get();
+       
         return $category;
     }
 

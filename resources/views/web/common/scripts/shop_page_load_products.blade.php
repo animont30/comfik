@@ -25,6 +25,11 @@ document.getElementById('sortbytype').addEventListener('change',function(){
 });
 
 //sortby
+document.getElementById('category').addEventListener('change',function(){
+	jQuery("#load_products_form").submit();
+
+});
+//sortby
 document.getElementById('sortbylimit').addEventListener('change',function(){
 	jQuery("#load_products_form").submit();
 

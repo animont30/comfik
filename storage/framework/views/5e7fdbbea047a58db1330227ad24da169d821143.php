@@ -1,9 +1,10 @@
-
 <!--<div class="product product11">
   <article>
     <div class="thumb">
       <div class="badges">
+        
         <?php 
+        
         $current_date = date("Y-m-d", strtotime("now"));
 
         $string = substr($products->products_date_added, 0, strpos($products->products_date_added, ' '));
@@ -72,7 +73,7 @@
             $cat_name = $category->categories_name;
         }              
                
-        */
+        echo $cat_name;*/
        ?>                                 
       </span>
       <h5 class="title"><a href="<?php echo e(URL::to('/product-detail/'.$products->products_slug)); ?>"><?php echo e($products->products_name); ?></a></h5>

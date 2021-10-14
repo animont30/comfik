@@ -1,7 +1,7 @@
-
-
 <?php $qunatity=0; ?>
+
 <?php $__currentLoopData = $result['commonContent']['cart']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cart_data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
     <?php $qunatity += $cart_data->customers_basket_quantity; ?>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -32,7 +32,12 @@
         <li class="d-flex align-items-center justify-content-between mb-2">
             <div class="item-thumb">
                <div class="image">
+              
+                <?php if(!empty($cart_data->image)): ?>
                     <img class="img-fluid" src="<?php echo e(asset('').$cart_data->image); ?>" alt="<?php echo e($cart_data->products_name); ?>"/>
+                    <?php else: ?>
+                    <img src="<?php echo e(asset('/product_img/product_'.$cart_data->products_id.'/'.$cart_data->products_images ?? '')); ?>" alt="<?php echo e($cart_data->products_name); ?>" /> 
+                 <?php endif; ?>
                 </div>
             </div>
             <div class="item-detail pl-2">

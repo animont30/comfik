@@ -1,6 +1,6 @@
+
 @extends('web.layout')
 @section('content')
-
 <!-- checkout Content -->
 <section class="checkout-area">
 
@@ -23,13 +23,13 @@ jQuery(document).ready(function() {
             <li class="breadcrumb-item"><a href="javascript:void(0)">@lang('website.Checkout')</a></li>
             <li class="breadcrumb-item">
               <a href="javascript:void(0)">
-                @if(session('step_box')==0)
+                @if(session('step')==0)
                       @lang('website.Shipping Address')
-                    @elseif(session('step_box')==1)
+                    @elseif(session('step')==1)
                       @lang('website.Billing Address')
-                    @elseif(session('step_box')==2)
+                    @elseif(session('step')==2)
                       @lang('website.Shipping Methods')
-                    @elseif(session('step_box')==3)
+                    @elseif(session('step')==3)
                       @lang('website.Order Detail')
                     @endif
               </a>
@@ -62,36 +62,36 @@ jQuery(document).ready(function() {
            <div class="checkout-module">
              <ul class="nav nav-pills mb-3 checkoutd-nav d-none d-lg-flex" id="pills-tab" role="tablist">
                  <li class="nav-item">
-                   <a class="nav-link @if(session('step_box')==0) active @elseif(session('step_box')>0)  @endif" id="pills-shipping-tab" data-toggle="pill" href="#pills-shipping" role="tab" aria-controls="pills-shipping" aria-selected="true">
+                   <a class="nav-link @if(session('step')==0) active @elseif(session('step')>0)  @endif" id="pills-shipping-tab" data-toggle="pill" href="#pills-shipping" role="tab" aria-controls="pills-shipping" aria-selected="true">
                     <span class="d-flex d-lg-none">1</span>
                     <span class="d-none d-lg-flex">@lang('website.Shipping Address')</span></a>
                  </li>
                  <li class="nav-item">
-                   <a class="nav-link @if(session('step_box')==1) active @elseif(session('step_box')>1) @endif" @if(session('step_box')>=1) id="pills-billing-tab" data-toggle="pill" href="#pills-billing" role="tab" aria-controls="pills-billing" aria-selected="false"  @endif >@lang('website.Billing Address')</a>
+                   <a class="nav-link @if(session('step')==1) active @elseif(session('step')>1) @endif" @if(session('step')>=1) id="pills-billing-tab" data-toggle="pill" href="#pills-billing" role="tab" aria-controls="pills-billing" aria-selected="false"  @endif >@lang('website.Billing Address')</a>
                  </li>
                  <li class="nav-item">
-                   <a class="nav-link @if(session('step_box')==2) active @elseif(session('step_box')>2)  @endif" @if(session('step_box')>=2) id="pills-method-tab" data-toggle="pill" href="#pills-method" role="tab" aria-controls="pills-method" aria-selected="false" @endif> @lang('website.Shipping Methods')</a>
+                   <a class="nav-link @if(session('step')==2) active @elseif(session('step')>2)  @endif" @if(session('step')>=2) id="pills-method-tab" data-toggle="pill" href="#pills-method" role="tab" aria-controls="pills-method" aria-selected="false" @endif> @lang('website.Shipping Methods')</a>
                  </li>
                  <li class="nav-item">
-                     <a class="nav-link @if(session('step_box')==3) active @elseif(session('step_box')>3) @endif"  @if(session('step_box')>=3) id="pills-order-tab" data-toggle="pill" href="#pills-order" role="tab" aria-controls="pills-order" aria-selected="false"@endif>@lang('website.Order Detail')</a>
+                     <a class="nav-link @if(session('step')==3) active @elseif(session('step')>3) @endif"  @if(session('step')>=3) id="pills-order-tab" data-toggle="pill" href="#pills-order" role="tab" aria-controls="pills-order" aria-selected="false"@endif>@lang('website.Order Detail')</a>
                    </li>
                </ul>
                <ul class="nav nav-pills mb-3 checkoutd-nav d-flex d-lg-none" id="pills-tab" role="tablist">
                  <li class="nav-item">
-                   <a class="nav-link @if(session('step_box')==0) active @elseif(session('step_box')>0) active-check @endif" id="pills-shipping-tab" data-toggle="pill" href="#pills-shipping" role="tab" aria-controls="pills-shipping" aria-selected="true">1</a>
+                   <a class="nav-link @if(session('step')==0) active @elseif(session('step')>0) active-check @endif" id="pills-shipping-tab" data-toggle="pill" href="#pills-shipping" role="tab" aria-controls="pills-shipping" aria-selected="true">1</a>
                  </li>
                  <li class="nav-item second">
-                   <a class="nav-link @if(session('step_box')==1) active @elseif(session('step_box')>1) active-check @endif" @if(session('step_box')>=1) id="pills-billing-tab" data-toggle="pill" href="#pills-billing" role="tab" aria-controls="pills-billing" aria-selected="false"  @endif >2</a>
+                   <a class="nav-link @if(session('step')==1) active @elseif(session('step')>1) active-check @endif" @if(session('step')>=1) id="pills-billing-tab" data-toggle="pill" href="#pills-billing" role="tab" aria-controls="pills-billing" aria-selected="false"  @endif >2</a>
                  </li>
                  <li class="nav-item third">
-                   <a class="nav-link @if(session('step_box')==2) active @elseif(session('step_box')>2) active-check @endif" @if(session('step_box')>=2) id="pills-method-tab" data-toggle="pill" href="#pills-method" role="tab" aria-controls="pills-method" aria-selected="false" @endif>3</a>
+                   <a class="nav-link @if(session('step')==2) active @elseif(session('step')>2) active-check @endif" @if(session('step')>=2) id="pills-method-tab" data-toggle="pill" href="#pills-method" role="tab" aria-controls="pills-method" aria-selected="false" @endif>3</a>
                  </li>
                  <li class="nav-item fourth">
-                   <a class="nav-link @if(session('step_box')==3) active @elseif(session('step_box')>3) active-check @endif"  @if(session('step_box')>=3) id="pills-order-tab" data-toggle="pill" href="#pills-order" role="tab" aria-controls="pills-order" aria-selected="false"@endif>4</a>
+                   <a class="nav-link @if(session('step')==3) active @elseif(session('step')>3) active-check @endif"  @if(session('step')>=3) id="pills-order-tab" data-toggle="pill" href="#pills-order" role="tab" aria-controls="pills-order" aria-selected="false"@endif>4</a>
                    </li>
                </ul>
                <div class="tab-content" id="pills-tabContent">
-                 <div class="tab-pane fade @if(session('step_box') == 0) show active @endif" id="pills-shipping" role="tabpanel" aria-labelledby="pills-shipping-tab">
+                 <div class="tab-pane fade @if(session('step') == 0) show active @endif" id="pills-shipping" role="tabpanel" aria-labelledby="pills-shipping-tab">
                    <form name="signup" enctype="multipart/form-data" class="form-validate"  action="{{ URL::to('/checkout_shipping_address')}}" method="post">
                      <input type="hidden" required name="_token" id="csrf-token" value="{{ Session::token() }}" />
                      <div class="form-row">
@@ -189,7 +189,7 @@ jQuery(document).ready(function() {
                       </div>
                    </form>
                  </div>
-                 <div class="tab-pane fade @if(session('step_box') == 1) show active @endif"  id="pills-billing" role="tabpanel" aria-labelledby="pills-billing-tab">
+                 <div class="tab-pane fade @if(session('step') == 1) show active @endif"  id="pills-billing" role="tabpanel" aria-labelledby="pills-billing-tab">
                      <form name="signup" enctype="multipart/form-data" action="{{ URL::to('/checkout_billing_address')}}" method="post">
                        <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
                        <div class="form-row">
@@ -275,7 +275,7 @@ jQuery(document).ready(function() {
                              </div>
                        </form>
                  </div>
-                 <div class="tab-pane fade  @if(session('step_box') == 2) show active @endif" id="pills-method" role="tabpanel" aria-labelledby="pills-method-tab">
+                 <div class="tab-pane fade  @if(session('step') == 2) show active @endif" id="pills-method" role="tabpanel" aria-labelledby="pills-method-tab">
 
                              <div class="col-12 col-sm-12 ">
                                 <div class="row"> <p>@lang('website.Please select a prefered shipping method to use on this order')</p></div>
@@ -361,7 +361,7 @@ jQuery(document).ready(function() {
                               </form>
 
                  </div>
-                 <div class="tab-pane fade @if(session('step_box') == 3) show active @endif" id="pills-order" role="tabpanel" aria-labelledby="pills-method-order">
+                 <div class="tab-pane fade @if(session('step') == 3) show active @endif" id="pills-order" role="tabpanel" aria-labelledby="pills-method-order">
                                <?php
                                    $price = 0;
                                ?>
@@ -948,7 +948,7 @@ jQuery( document ).ready( function () {
 <script type="text/javascript">
   document.getElementById('midtrans_button').onclick = function(){
     var tokken = jQuery('#midtransToken').val();
-      // SnapToken acquired from previous step_box
+      // SnapToken acquired from previous step
       snap.pay(tokken, {
           // Optional
           onSuccess: function(result){

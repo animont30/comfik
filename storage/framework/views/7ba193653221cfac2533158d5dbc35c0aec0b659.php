@@ -281,8 +281,8 @@
 													<?php endif; ?>
 													>All</option>
 													<?php $__currentLoopData = $result['categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-														<option value="<?php echo e($cat->categories_id); ?>"
-														 <?php if(app('request')->input('category') == $cat->categories_id): ?>
+														<option value="<?php echo e($cat->slug); ?>"
+														 <?php if(app('request')->input('category') == $cat->slug): ?>
 															 selected="selected"
 														 <?php endif; ?>
 
@@ -372,14 +372,14 @@
                           </div>
                         </section>
 
-
                         <section id="swap" class="shop-content mt-2" >
                               <div class="products-area">
                                   <div class="row">  
-                                    <?php if($result['categories_status'] == 1): ?>
-									
-                                      <?php $__currentLoopData = $result['products']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$products): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>    
+                                    <?php if($result['products']['success'] == 1): ?>
+								
+                                      <?php $__currentLoopData = $result['products']['product_data']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$products): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>    
 	
+                                      
                                       <?php 
                                        // $is_status = false;
                                         if(!empty($products->categories)){

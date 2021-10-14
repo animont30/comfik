@@ -1,7 +1,7 @@
-
-
 <?php $qunatity=0; ?>
+
 @foreach($result['commonContent']['cart'] as $cart_data)
+
     <?php $qunatity += $cart_data->customers_basket_quantity; ?>
 @endforeach
 
@@ -32,7 +32,12 @@
         <li class="d-flex align-items-center justify-content-between mb-2">
             <div class="item-thumb">
                <div class="image">
+              
+                @if(!empty($cart_data->image))
                     <img class="img-fluid" src="{{asset('').$cart_data->image}}" alt="{{$cart_data->products_name}}"/>
+                    @else
+                    <img src="{{asset('/product_img/product_'.$cart_data->products_id.'/'.$cart_data->products_images ?? '')}}" alt="{{$cart_data->products_name}}" /> 
+                 @endif
                 </div>
             </div>
             <div class="item-detail pl-2">

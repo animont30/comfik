@@ -1,5 +1,4 @@
 <?php $__env->startSection('content'); ?>
-
 <!-- checkout Content -->
 <section class="checkout-area">
 

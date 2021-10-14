@@ -113,7 +113,7 @@ class AlertController extends Controller
 				});
 			} catch (\Exception $e) {
 
-					return view('errors.not_install');
+					return view('errors.general_error');
 			}
 			}
 
@@ -129,7 +129,7 @@ class AlertController extends Controller
 
 					} catch (\Exception $e) {
 
-						return view('errors.not_install');
+						return view('errors.general_error');
 					}
 			}
 		}

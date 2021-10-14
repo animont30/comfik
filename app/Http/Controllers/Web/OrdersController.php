@@ -305,8 +305,8 @@ class OrdersController extends Controller
         $result = array();
         $result['commonContent'] = $this->index->commonContent();
 
-        if (session('step_box') == '0') {
-            session::push('step_box', 1);
+        if (session('step') == '0') {
+            session(['step' => '1']);
         }
 
         foreach ($request->all() as $key => $value) {
@@ -349,8 +349,8 @@ class OrdersController extends Controller
     //checkout_billing_address
     public function checkout_billing_address(Request $request)
     {
-        if (session('step_box') == '1') {
-            session(['step_box' => '2']);
+        if (session('step') == '1') {
+            session(['step' => '2']);
         }
 
         if (empty($request->same_billing_address)) {
@@ -376,8 +376,8 @@ class OrdersController extends Controller
     public function checkout_payment_method(Request $request)
     {
 
-        if (session('step_box') == '2') {
-            session(['step_box' => '3']);
+        if (session('step') == '2') {
+            session(['step' => '3']);
         }
         $result['commonContent'] = $this->index->commonContent();
 
@@ -491,14 +491,14 @@ class OrdersController extends Controller
     {
         $title = array('pageTitle' => Lang::get("website.My Orders"));
         $final_theme = $this->theme->theme();
-        $result = $this->order->orders($request);       
+        $result = $this->order->orders($request);     
+       
         return view("web.orders", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
     }
 
     //viewMyOrder
     public function viewOrder(Request $request, $id)
     {
-
         $title = array('pageTitle' => Lang::get("website.View Order"));
         $final_theme = $this->theme->theme();
         // $result = $this->order->viewOrder($request, $id);
